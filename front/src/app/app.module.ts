@@ -8,7 +8,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { TopicsComponent } from './pages/topics/topics.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
-
 @NgModule({
   declarations: [AppComponent, HomeComponent, TopicsComponent, NavbarComponent],
   imports: [
