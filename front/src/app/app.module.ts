@@ -8,14 +8,21 @@ import { HomeComponent } from './pages/home/home.component';
 import { TopicsComponent } from './pages/topics/topics.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
+import { AuthModule } from './auth/auth.module';
 @NgModule({
-  declarations: [AppComponent, HomeComponent, TopicsComponent, NavbarComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    TopicsComponent,
+    NavbarComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
     HttpClientModule,
+    // AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
