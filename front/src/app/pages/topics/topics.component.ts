@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Topic } from 'src/app/models/topic.model';
 import { TopicsService } from 'src/app/services/topics/topics.service';
-
 @Component({
   selector: 'app-topics',
   templateUrl: './topics.component.html',
@@ -16,7 +15,6 @@ export class TopicsComponent implements OnInit {
   ngOnInit(): void {
     this.topicsService.getAllTopics().subscribe(
       (data: Topic[]) => {
-        console.log("Données reçues :", data);
         this.topics = data;
       },
       (error: any) => {

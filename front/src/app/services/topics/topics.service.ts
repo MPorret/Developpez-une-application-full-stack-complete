@@ -8,7 +8,7 @@ import { Topic } from 'src/app/models/topic.model';
 })
 export class TopicsService {
 
-  private apiUrl = 'http://localhost:3001/api/topics';
+  private apiUrl = 'api/topics';
 
   constructor( private http: HttpClient) { }
 
