@@ -18,7 +18,7 @@ export class RegisterComponent {
 
   public form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    name: ['', [Validators.required, Validators.min(3)]],
+    username: ['', [Validators.required, Validators.min(3)]],
     password: ['', [Validators.required, Validators.min(3)]]
   });
 
@@ -32,10 +32,10 @@ export class RegisterComponent {
     this.authService.register(registerRequest).subscribe(
       (response: AuthSuccess) => {
         localStorage.setItem('token', response.token);
-        // this.authService.me().subscribe((user: User) => {
-        //   this.sessionService.logIn(user);
-        //   this.router.navigate(['/posts'])
-        // });
+        this.authService.me().subscribe((user: User) => {
+          this.sessionService.logIn(user);
+          this.router.navigate(['/topics'])
+        });
       },
       error => this.onError = true
     );

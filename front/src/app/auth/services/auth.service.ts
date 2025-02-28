@@ -16,6 +16,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   public register(registerRequest: RegisterRequest): Observable<AuthSuccess> {
+    console.log(registerRequest);
     return this.httpClient.post<AuthSuccess>(`${this.pathService}/register`, registerRequest);
   }
 
@@ -31,8 +32,8 @@ export class AuthService {
     );
   }
 
-  // public me(): Observable<User> {
-  //   const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
-  //   return this.httpClient.get<User>(`${this.pathService}/me`, { headers });
-  // }
+  public me(): Observable<User> {
+    const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+    return this.httpClient.get<User>(`${this.pathService}/me`);
+  }
 }

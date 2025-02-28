@@ -33,4 +33,8 @@ export class SessionService {
   private next(): void {
     this.isLoggedSubject.next(this.isLogged);
   }
+
+  public getToken(): string | null {
+    return localStorage.getItem('token');
+  }
 }

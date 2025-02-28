@@ -41,15 +41,16 @@ export class LoginComponent implements OnInit {
     this.authService.login(loginRequest).subscribe(
       (response: AuthSuccess) => {
         localStorage.setItem('token', response.token);
-        // this.authService.me().subscribe(
-        //   (user: User) => {
-        //     this.sessionService.logIn(user);
-        //     this.router.navigate(['/posts']);
-        //   },
-        //   error => {
-        //     console.error('Error fetching user details:', error);
-        //   }
-        // );
+        this.authService.me().subscribe(
+          (user: User) => {
+            this.sessionService.logIn(user);
+            this.router.navigate(['/topics']);
+          },
+          error => {
+            console.error('Error fetching user details:', error);
+          }
+        );
+        this.router.navigate(['/topics']);
       },
       error => {
         console.error('Login failed:', error);
