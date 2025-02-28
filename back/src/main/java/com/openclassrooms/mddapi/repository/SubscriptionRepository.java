@@ -11,5 +11,4 @@ import com.openclassrooms.mddapi.models.Subscription;
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
   public List<Subscription> findByUserId(Long userId);
   public Optional<Subscription> findByUserIdAndTopicId(Long userId, Long topicId);
-  // public Optional<Subscription> findByUserAndTopic(DBUser user, Topic topic);
 }
