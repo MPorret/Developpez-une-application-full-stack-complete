@@ -2,50 +2,40 @@ package com.openclassrooms.mddapi.DTO;
 
 import java.time.LocalDateTime;
 
-public class PostDTO {
+public class CommentDTO {
 
   private Long id;
-  private String title;
   private String content;
+  private String userName;
   private Long userId;
-  private String authorName;
-  private Long topicId;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 
-  public PostDTO(Long id, String title, String content, Long userId, String authorName, Long topicId, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public CommentDTO(Long id, String content, String userName, Long userId, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
-    this.title = title;
     this.content = content;
+    this.userName = userName;
     this.userId = userId;
-    this.authorName = authorName;
-    this.topicId = topicId;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
 
+  // Getters
+
   public Long getId() {
     return this.id;
-  }
-
-  public String getTitle() {
-    return this.title;
   }
 
   public String getContent() {
     return this.content;
   }
 
+  public String getUserName() {
+    return this.userName;
+  }
+
   public Long getUserId() {
     return this.userId;
-  }
-
-  public String getAuthorName() {
-    return this.authorName;
-  }
-
-  public Long getTopicId() {
-    return this.topicId;
   }
 
   public LocalDateTime getCreatedAt() {
