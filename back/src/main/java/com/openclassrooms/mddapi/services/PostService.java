@@ -44,11 +44,31 @@ public class PostService {
                     post.getId(),
                     post.getTitle(),
                     post.getContent(),
-                    post.getTopicId(),
                     post.getUserId(),
+                    post.getTopicId(),
                     post.getUpdatedAt(),
                     post.getCreatedAt()
                 ))
                 .collect(Collectors.toList());
+  }
+
+  public PostDTO createPost(PostDTO postDTO) {
+    Post post = new Post();
+    post.setTitle(postDTO.getTitle());
+    post.setContent(postDTO.getContent());
+    post.setUserId(postDTO.getUserId());
+    post.setTopicId(postDTO.getTopicId());
+
+    Post savedPost = postRepository.save(post);
+
+    return new PostDTO(
+        savedPost.getId(),
+        savedPost.getTitle(),
+        savedPost.getContent(),
+        savedPost.getUserId(),
+        savedPost.getTopicId(),
+        savedPost.getCreatedAt(),
+        savedPost.getUpdatedAt()
+    );
   }
 }

@@ -1,11 +1,16 @@
 package com.openclassrooms.mddapi.models;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name="posts")
@@ -27,11 +32,13 @@ public class Post {
   @Column(name = "topic_id")
   private Long topicId;
 
-  @Column(name = "created_at")
-  private String createdAt;
+  @CreationTimestamp
+  @Column(name = "created_at", updatable = false)
+  private LocalDateTime createdAt;
 
+  @UpdateTimestamp
   @Column(name = "updated_at")
-  private String updatedAt;
+  private LocalDateTime updatedAt;
 
 
   // Getters
@@ -56,12 +63,12 @@ public class Post {
     return this.topicId;
   }
 
-  public String getCreatedAt() {
-    return this.createdAt;
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
   }
 
-  public String getUpdatedAt() {
-    return this.updatedAt;
+  public LocalDateTime getUpdatedAt() {
+    return updatedAt;
   }
 
 
@@ -81,6 +88,14 @@ public class Post {
 
   public void setTopicId(Long topicId) {
     this.topicId = topicId;
+  }
+
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public void setUpdatedAt(LocalDateTime updatedAt) {
+    this.updatedAt = updatedAt;
   }
 
 }
