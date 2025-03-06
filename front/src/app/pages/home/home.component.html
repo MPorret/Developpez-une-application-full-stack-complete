@@ -1,5 +1,11 @@
 <div class="center">
   <img src="/assets/logo_p6.png" alt="logo" />
-  <h1>Welcome to MDD</h1>
-  <button mat-raised-button color="primary" (click)="start()">Commencer</button>
+  <div class="flex felx-col justify-center align-middle">
+    <div class="flex flex-col desktop:flex-row justify-center align-middle gap-10 desktop:gap-16 my-4">
+      <!-- <a routerLink="/topics">Topics</a> -->
+      <button class="text-lg border border-black p-1 px-4 rounded-lg" routerLink="/register">S'inscrire</button>
+      <button class="text-lg border border-black p-1 px-4 rounded-lg" routerLink="/login">Se connecter</button>
+    </div>
+
+  </div>
 </div>
