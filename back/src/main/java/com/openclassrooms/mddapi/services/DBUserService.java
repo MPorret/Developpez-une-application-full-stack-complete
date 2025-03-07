@@ -108,7 +108,4 @@ public class DBUserService {
       // Sauvegarder l'utilisateur dans la base de données
       return userRepository.save(newUser);
     }
-
-    // /!\ L'enregistrement ne fonctionne pas /!\
-
 }

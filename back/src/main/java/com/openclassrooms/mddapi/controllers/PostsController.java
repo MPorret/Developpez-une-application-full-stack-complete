@@ -41,10 +41,10 @@ public class PostsController {
     return ResponseEntity.ok(postDTO);
   }
 
-  @GetMapping("/{postId}/comments")
-  public List<CommentDTO> getCommentsByPostId(@PathVariable Long postId) {
-    return postService.getCommentsByPostId(postId);
-  }
+  // @GetMapping("/{postId}/comments")
+  // public List<CommentDTO> getCommentsByPostId(@PathVariable Long postId) {
+  //   return postService.getCommentsByPostId(postId);
+  // }
 
   @PostMapping("/{postId}/comments")
   public ResponseEntity<CommentDTO> createComment(@PathVariable Long postId, @RequestBody CommentDTO commentDTO) {
@@ -57,7 +57,6 @@ public class PostsController {
   //
   // ----- Reste à faire : -----
   //
-  // * Récupérer et modifier les infos de l'utilisateur ;
   // * Le frontend
   //
   //

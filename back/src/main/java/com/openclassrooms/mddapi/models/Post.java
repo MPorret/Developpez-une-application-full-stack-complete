@@ -1,12 +1,15 @@
 package com.openclassrooms.mddapi.models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,6 +34,10 @@ public class Post {
 
   @Column(name = "topic_id")
   private Long topicId;
+
+  @OneToMany
+  @JoinColumn(name = "post_id")
+  private List<Comment> comments;
 
   @CreationTimestamp
   @Column(name = "created_at", updatable = false)
@@ -71,6 +78,9 @@ public class Post {
     return updatedAt;
   }
 
+  public List<Comment> getComments() {
+    return comments;
+  }
 
   // Setters
 
@@ -96,6 +106,10 @@ public class Post {
 
   public void setUpdatedAt(LocalDateTime updatedAt) {
     this.updatedAt = updatedAt;
+  }
+
+  public void setComments(List<Comment> comments) {
+    this.comments = comments;
   }
 
 }

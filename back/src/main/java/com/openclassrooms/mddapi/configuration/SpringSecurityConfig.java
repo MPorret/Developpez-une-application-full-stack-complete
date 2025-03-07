@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.configuration;
 
 import javax.crypto.spec.SecretKeySpec;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,9 +32,6 @@ public class SpringSecurityConfig {
 
   private final Dotenv dotenv = Dotenv.configure().load();
   private final String jwtKey = dotenv.get("256_JWT_KEY");
-
-  @Autowired
-  private CustomUserDetailsService customUserDetailsService;
 
   @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
