@@ -1,6 +1,11 @@
 package com.openclassrooms.mddapi.controllers;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +31,7 @@ import com.openclassrooms.mddapi.repository.DBUserRepository;
 import com.openclassrooms.mddapi.services.AuthService;
 import com.openclassrooms.mddapi.services.DBUserService;
 import com.openclassrooms.mddapi.services.JWTService;
+
 
 @RestController
 public class LoginController {
@@ -104,39 +113,17 @@ public class LoginController {
     }
   }
 
-  // @GetMapping("/auth/me")
-  //   public ResponseEntity<DBUserDTO> getAuthenticatedUser(@AuthenticationPrincipal UserDetails userDetails) {
-  //       if (userDetails == null) {
-  //           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-  //       }
+  @PostMapping("/api/logout")
+  public ResponseEntity<Map<String, String>> logout(HttpServletRequest request, HttpServletResponse response) {
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth != null) {
+          new SecurityContextLogoutHandler().logout(request, response, auth);
+      }
 
-  //       Long id = ((DBUser) userDetails).getId();
-  //       String username = ((DBUser) userDetails).getUsername();
-  //       String email = ((DBUser) userDetails).getEmail();
-  //       String password = ((DBUser) userDetails).getPassword();
+      Map<String, String> responseBody = new HashMap<>();
+      responseBody.put("message", "logged out successfully");
 
-  //       DBUserDTO dbUserDto = new DBUserDTO(id, username, email, password);
-  //       return ResponseEntity.ok(dbUserDto);
-  //   }
+      return ResponseEntity.ok(responseBody);
+  }
 
-  // @GetMapping("/auth/me")
-  // public ResponseEntity<DBUserDTO> getCurrentUser() {
-
-  //   // Récupération de l'utilisateur actuellement connecté
-  //   Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-  //   if (authentication == null || !authentication.isAuthenticated()) {
-  //     return ResponseEntity.status(401).build();
-  //   }
-
-  //   String email = authentication.getName();
-
-  //   Optional<DBUserDTO> optionalUser = dbUserService.getUserByEmail(email);
-
-  //   if (optionalUser == null) {
-  //     return ResponseEntity.notFound().build();
-  //   }
-
-  //   return ResponseEntity.ok(optionalUser.get());
-  // }
 }
