@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,6 +56,15 @@ public class DBUserController {
     }
 
     return ResponseEntity.ok(user);
+  }
+
+  @PutMapping("/user/{id}")
+  public ResponseEntity<Optional<DBUserDTO>> updateUser(@PathVariable Long id, @RequestBody DBUserDTO userDTO) {
+    Optional<DBUserDTO> updatedUser = DBUserService.updateUser(id, userDTO);
+    if (updatedUser == null) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    return ResponseEntity.ok(updatedUser);
   }
 
 }

@@ -55,6 +55,22 @@ public class PostService {
                 .map(post -> {
                   DBUser dbUser = dbUserRepository.findById(post.getUserId())
                                                   .orElseThrow(() -> new RuntimeException("User not found"));
+
+                  List<CommentDTO> commentDTO = post.getComments().stream()
+                                                    .map(comment -> {
+                                                      DBUser commentUser = dbUserRepository.findById(comment.getUserId())
+                                                                                          .orElseThrow(() -> new RuntimeException("User not found"));
+                                                      return new CommentDTO(
+                                                          comment.getId(),
+                                                          comment.getContent(),
+                                                          commentUser.getUsername(),
+                                                          comment.getUserId(),
+                                                          comment.getCreatedAt(),
+                                                          comment.getUpdatedAt()
+                                                      );
+                                                    })
+                                                    .collect(Collectors.toList());
+
                   return new PostDTO(
                     post.getId(),
                     post.getTitle(),
@@ -62,6 +78,7 @@ public class PostService {
                     post.getUserId(),
                     dbUser.getUsername(),
                     post.getTopicId(),
+                    commentDTO,
                     post.getUpdatedAt(),
                     post.getCreatedAt()
                   );
@@ -85,6 +102,8 @@ public class PostService {
     DBUser dbUser = dbUserRepository.findById(savedPost.getUserId())
                                     .orElseThrow(() -> new RuntimeException("User not found"));
 
+    List<CommentDTO> emptyComments = List.of();
+
     return new PostDTO(
         savedPost.getId(),
         savedPost.getTitle(),
@@ -92,6 +111,7 @@ public class PostService {
         savedPost.getUserId(),
         dbUser.getUsername(),
         savedPost.getTopicId(),
+        emptyComments,
         savedPost.getCreatedAt(),
         savedPost.getUpdatedAt()
     );
@@ -108,6 +128,21 @@ public class PostService {
     DBUser dbUser = dbUserRepository.findById(post.getUserId())
                               .orElseThrow(() -> new RuntimeException("User not found"));
 
+    List<CommentDTO> commentDTO = post.getComments().stream()
+                                      .map(comment -> {
+                                        DBUser commentUser = dbUserRepository.findById(comment.getUserId())
+                                                                            .orElseThrow(() -> new RuntimeException("User not found"));
+                                        return new CommentDTO(
+                                            comment.getId(),
+                                            comment.getContent(),
+                                            commentUser.getUsername(),
+                                            comment.getUserId(),
+                                            comment.getCreatedAt(),
+                                            comment.getUpdatedAt()
+                                        );
+                                      })
+                                      .collect(Collectors.toList());
+
     return new PostDTO(
         post.getId(),
         post.getTitle(),
@@ -115,37 +150,38 @@ public class PostService {
         post.getUserId(),
         dbUser.getUsername(),
         post.getTopicId(),
+        commentDTO,
         post.getCreatedAt(),
         post.getUpdatedAt()
     );
   }
 
 
-// ------------------------ GET COMMENTS BY POST ID ---------------------------
+// // ------------------------ GET COMMENTS BY POST ID ---------------------------
 
 
-  public List<CommentDTO> getCommentsByPostId(Long postId){
+//   public List<CommentDTO> getCommentsByPostId(Long postId){
 
-    List<Comment> comments = commentRepository.findByPostId(postId);
+//     List<Comment> comments = commentRepository.findByPostId(postId);
 
-    List<Comment> sortedComments = comments.stream()
-                                          .sorted((c1, c2) -> c2.getUpdatedAt().compareTo(c1.getUpdatedAt()))
-                                          .collect(Collectors.toList());
-    return sortedComments.stream()
-                    .map(comment -> {
-                      DBUser user = dbUserRepository.findById(comment.getUserId())
-                                                    .orElseThrow(() -> new RuntimeException("User not found"));
-                      return new CommentDTO(
-                          comment.getId(),
-                          comment.getContent(),
-                          user.getUsername(),
-                          comment.getUserId(),
-                          comment.getCreatedAt(),
-                          comment.getUpdatedAt()
-                      );
-                    })
-                    .collect(Collectors.toList());
-  }
+//     List<Comment> sortedComments = comments.stream()
+//                                           .sorted((c1, c2) -> c2.getUpdatedAt().compareTo(c1.getUpdatedAt()))
+//                                           .collect(Collectors.toList());
+//     return sortedComments.stream()
+//                     .map(comment -> {
+//                       DBUser user = dbUserRepository.findById(comment.getUserId())
+//                                                     .orElseThrow(() -> new RuntimeException("User not found"));
+//                       return new CommentDTO(
+//                           comment.getId(),
+//                           comment.getContent(),
+//                           user.getUsername(),
+//                           comment.getUserId(),
+//                           comment.getCreatedAt(),
+//                           comment.getUpdatedAt()
+//                       );
+//                     })
+//                     .collect(Collectors.toList());
+//   }
 
 
 // ------------------------ CREATE COMMENT ---------------------------
