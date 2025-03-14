@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.services;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,9 @@ public class PostService {
   private DBUserRepository dbUserRepository;
 
   public List<PostDTO> getPostsByUserId(Long userId) {
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     // Récupérer les souscriptions de l'utilisateur
     List<Subscription> subscriptions = subscriptionRepository.findByUserId(userId);
 
@@ -65,8 +69,8 @@ public class PostService {
                                                           comment.getContent(),
                                                           commentUser.getUsername(),
                                                           comment.getUserId(),
-                                                          comment.getCreatedAt(),
-                                                          comment.getUpdatedAt()
+                                                          comment.getCreatedAt().format(formatter),
+                                                          comment.getUpdatedAt().format(formatter)
                                                       );
                                                     })
                                                     .collect(Collectors.toList());
@@ -79,8 +83,8 @@ public class PostService {
                     dbUser.getUsername(),
                     post.getTopicId(),
                     commentDTO,
-                    post.getUpdatedAt(),
-                    post.getCreatedAt()
+                    post.getUpdatedAt().format(formatter),
+                    post.getCreatedAt().format(formatter)
                   );
                 })
                 .collect(Collectors.toList());
@@ -91,6 +95,7 @@ public class PostService {
 
 
   public PostDTO createPost(PostDTO postDTO) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     Post post = new Post();
     post.setTitle(postDTO.getTitle());
     post.setContent(postDTO.getContent());
@@ -112,8 +117,8 @@ public class PostService {
         dbUser.getUsername(),
         savedPost.getTopicId(),
         emptyComments,
-        savedPost.getCreatedAt(),
-        savedPost.getUpdatedAt()
+        savedPost.getCreatedAt().format(formatter),
+        savedPost.getUpdatedAt().format(formatter)
     );
   }
 
@@ -122,6 +127,7 @@ public class PostService {
 
 
   public PostDTO getPostById(Long postId) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     Post post = postRepository.findById(postId)
                               .orElseThrow(() -> new RuntimeException("Post not found"));
 
@@ -137,8 +143,8 @@ public class PostService {
                                             comment.getContent(),
                                             commentUser.getUsername(),
                                             comment.getUserId(),
-                                            comment.getCreatedAt(),
-                                            comment.getUpdatedAt()
+                                            comment.getCreatedAt().format(formatter),
+                                            comment.getUpdatedAt().format(formatter)
                                         );
                                       })
                                       .collect(Collectors.toList());
@@ -151,8 +157,8 @@ public class PostService {
         dbUser.getUsername(),
         post.getTopicId(),
         commentDTO,
-        post.getCreatedAt(),
-        post.getUpdatedAt()
+        post.getCreatedAt().format(formatter),
+        post.getUpdatedAt().format(formatter)
     );
   }
 
@@ -189,6 +195,8 @@ public class PostService {
 
   public CommentDTO createComment(Long postId, CommentDTO commentDTO) {
 
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     // Vérifier si le post existe
     if (!postRepository.existsById(postId)) {
       throw new RuntimeException("Post not found");
@@ -209,8 +217,8 @@ public class PostService {
         savedComment.getContent(),
         dbUser.getUsername(),
         savedComment.getUserId(),
-        savedComment.getCreatedAt(),
-        savedComment.getUpdatedAt()
+        savedComment.getCreatedAt().format(formatter),
+        savedComment.getUpdatedAt().format(formatter)
     );
   }
 

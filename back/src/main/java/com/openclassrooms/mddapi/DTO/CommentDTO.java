@@ -1,17 +1,15 @@
 package com.openclassrooms.mddapi.DTO;
 
-import java.time.LocalDateTime;
-
 public class CommentDTO {
 
   private Long id;
   private String content;
   private String userName;
   private Long userId;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+  private String createdAt;
+  private String updatedAt;
 
-  public CommentDTO(Long id, String content, String userName, Long userId, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public CommentDTO(Long id, String content, String userName, Long userId, String createdAt, String updatedAt) {
     this.id = id;
     this.content = content;
     this.userName = userName;
@@ -38,11 +36,11 @@ public class CommentDTO {
     return this.userId;
   }
 
-  public LocalDateTime getCreatedAt() {
+  public String getCreatedAt() {
     return this.createdAt;
   }
 
-  public LocalDateTime getUpdatedAt() {
+  public String getUpdatedAt() {
     return this.updatedAt;
   }
 

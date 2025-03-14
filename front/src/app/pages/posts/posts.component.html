@@ -1,8 +1,16 @@
-<div *ngIf="posts.length > 0">
-  <div *ngFor="let post of posts" class="">
+<div
+  *ngIf="posts.length > 0"
+  class="w-full h-full flex flex-row flex-wrap gap-3 align-middle justify-center py-8"
+>
+  <div
+    *ngFor="let post of posts"
+    class="w-[48%] bg-gray-100 rounded-lg p-4 h-[180px]"
+  >
     <h2>{{ post.title }}</h2>
-    <p>{{ post.updatedAt }}</p>
-    <p>{{ post.authorName }}</p>
-    <p>{{ post.content }}</p>
+    <div class="w-full flex flex-row justify-between">
+      <p class="w-1/2">{{ post.updatedAt }}</p>
+      <p class="w-1/2">{{ post.authorName }}</p>
+    </div>
+    <p class="line-clamp-3 text-ellipsis ...">{{ post.content }}</p>
   </div>
 </div>
