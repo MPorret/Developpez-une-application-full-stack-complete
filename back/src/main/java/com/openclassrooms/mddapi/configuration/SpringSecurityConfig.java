@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.configuration;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,9 +43,21 @@ public class SpringSecurityConfig {
             .authorizeHttpRequests(auth -> {
                 auth.requestMatchers(new AntPathRequestMatcher("/api/auth/login")).permitAll();
                 auth.requestMatchers(new AntPathRequestMatcher("/api/auth/register")).permitAll();
+                auth.requestMatchers(new AntPathRequestMatcher("/api/logout")).permitAll();
                 // Toutes les autres routes nécessitent une authentification
                 auth.anyRequest().authenticated();
             })
+              .logout(logout -> logout
+              .logoutUrl("/api/logout") // URL de déconnexion
+              .invalidateHttpSession(true) // Invalider la session HTTP
+              .deleteCookies("JSESSIONID") // Supprimer les cookies de session
+              .logoutSuccessHandler((request, response, authentication) -> {
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"message\": \"logged out successfully\"}");
+                response.getWriter().flush();
+              })
+            )
             // On indique que le serveur accepte des tokens JWT pour l'authentification
             .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
             .build();

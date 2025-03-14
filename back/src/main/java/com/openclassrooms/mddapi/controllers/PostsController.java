@@ -51,14 +51,4 @@ public class PostsController {
     CommentDTO createdComment = postService.createComment(postId, commentDTO);
     return ResponseEntity.ok(createdComment);
   }
-
-  // /!\ /!\ /!\
-  //
-  //
-  // ----- Reste à faire : -----
-  //
-  // * Le frontend
-  //
-  //
-  // /!\ /!\ /!\
 }

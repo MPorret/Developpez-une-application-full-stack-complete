@@ -31,6 +31,14 @@ export class AuthService {
     );
   }
 
+  public logout(): Observable<void> {
+    return this.httpClient.post<void>(`/api/logout`, null).pipe(
+      tap(() => {
+        localStorage.removeItem('token');
+      })
+    );
+  }
+
   public me(): Observable<User> {
     const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
     return this.httpClient.get<User>(`${this.pathService}/me`);

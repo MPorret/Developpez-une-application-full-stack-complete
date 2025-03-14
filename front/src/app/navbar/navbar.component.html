@@ -2,8 +2,9 @@
   <img src="assets/logo_p6.png" alt="logo" class="w-[140px] h-[81px]">
 
   <div *ngIf="!['/login', '/register'].includes(router.url) || !router" class="flex justify-between items-center gap-4">
-    <a class="text-2xl" routerLink="/" routerLinkActive="text-purple">Articles</a>
-    <a class="text-2xl" routerLink="/topics" routerLinkActive="text-purple">Thèmes</a>
+    <a class="text-md text-red font-bold cursor-pointer" (click)="logout()" >Se déconnecter</a>
+    <a class="text-2xl font-thin" routerLink="/posts" routerLinkActive="text-purple">Articles</a>
+    <a class="text-2xl font-thin" routerLink="/topics" routerLinkActive="text-purple">Thèmes</a>
     <a class="w-[48px] h-[48px] rounded-full bg-dark-grey flex items-center justify-center" routerLink="/">
       <i class="fa-regular fa-user fa-2xl" style="color: #6D6D6D;"></i>
     </a>
