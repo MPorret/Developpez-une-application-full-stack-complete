@@ -1,6 +1,5 @@
 package com.openclassrooms.mddapi.DTO;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class PostDTO {
@@ -12,10 +11,10 @@ public class PostDTO {
   private String authorName;
   private Long topicId;
   private List<CommentDTO> comments;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+  private String createdAt;
+  private String updatedAt;
 
-  public PostDTO(Long id, String title, String content, Long userId, String authorName, Long topicId, List<CommentDTO> comments, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public PostDTO(Long id, String title, String content, Long userId, String authorName, Long topicId, List<CommentDTO> comments, String createdAt, String updatedAt) {
     this.id = id;
     this.title = title;
     this.content = content;
@@ -55,11 +54,11 @@ public class PostDTO {
     return this.comments;
   }
 
-  public LocalDateTime getCreatedAt() {
+  public String getCreatedAt() {
     return this.createdAt;
   }
 
-  public LocalDateTime getUpdatedAt() {
+  public String getUpdatedAt() {
     return this.updatedAt;
   }
 

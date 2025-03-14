@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.services;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,10 +13,12 @@ import com.openclassrooms.mddapi.models.Comment;
 import com.openclassrooms.mddapi.models.DBUser;
 import com.openclassrooms.mddapi.models.Post;
 import com.openclassrooms.mddapi.models.Subscription;
+import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.repository.CommentRepository;
 import com.openclassrooms.mddapi.repository.DBUserRepository;
 import com.openclassrooms.mddapi.repository.PostRepository;
 import com.openclassrooms.mddapi.repository.SubscriptionRepository;
+import com.openclassrooms.mddapi.repository.TopicRepository;
 
 @Service
 public class PostService {
@@ -32,7 +35,13 @@ public class PostService {
   @Autowired
   private DBUserRepository dbUserRepository;
 
+  @Autowired
+  private TopicRepository topicRepository;
+
   public List<PostDTO> getPostsByUserId(Long userId) {
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     // Récupérer les souscriptions de l'utilisateur
     List<Subscription> subscriptions = subscriptionRepository.findByUserId(userId);
 
@@ -65,8 +74,8 @@ public class PostService {
                                                           comment.getContent(),
                                                           commentUser.getUsername(),
                                                           comment.getUserId(),
-                                                          comment.getCreatedAt(),
-                                                          comment.getUpdatedAt()
+                                                          comment.getCreatedAt().format(formatter),
+                                                          comment.getUpdatedAt().format(formatter)
                                                       );
                                                     })
                                                     .collect(Collectors.toList());
@@ -79,8 +88,8 @@ public class PostService {
                     dbUser.getUsername(),
                     post.getTopicId(),
                     commentDTO,
-                    post.getUpdatedAt(),
-                    post.getCreatedAt()
+                    post.getUpdatedAt().format(formatter),
+                    post.getCreatedAt().format(formatter)
                   );
                 })
                 .collect(Collectors.toList());
@@ -91,6 +100,7 @@ public class PostService {
 
 
   public PostDTO createPost(PostDTO postDTO) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     Post post = new Post();
     post.setTitle(postDTO.getTitle());
     post.setContent(postDTO.getContent());
@@ -112,8 +122,8 @@ public class PostService {
         dbUser.getUsername(),
         savedPost.getTopicId(),
         emptyComments,
-        savedPost.getCreatedAt(),
-        savedPost.getUpdatedAt()
+        savedPost.getCreatedAt().format(formatter),
+        savedPost.getUpdatedAt().format(formatter)
     );
   }
 
@@ -122,6 +132,7 @@ public class PostService {
 
 
   public PostDTO getPostById(Long postId) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     Post post = postRepository.findById(postId)
                               .orElseThrow(() -> new RuntimeException("Post not found"));
 
@@ -137,8 +148,8 @@ public class PostService {
                                             comment.getContent(),
                                             commentUser.getUsername(),
                                             comment.getUserId(),
-                                            comment.getCreatedAt(),
-                                            comment.getUpdatedAt()
+                                            comment.getCreatedAt().format(formatter),
+                                            comment.getUpdatedAt().format(formatter)
                                         );
                                       })
                                       .collect(Collectors.toList());
@@ -151,43 +162,18 @@ public class PostService {
         dbUser.getUsername(),
         post.getTopicId(),
         commentDTO,
-        post.getCreatedAt(),
-        post.getUpdatedAt()
+        post.getCreatedAt().format(formatter),
+        post.getUpdatedAt().format(formatter)
     );
   }
-
-
-// // ------------------------ GET COMMENTS BY POST ID ---------------------------
-
-
-//   public List<CommentDTO> getCommentsByPostId(Long postId){
-
-//     List<Comment> comments = commentRepository.findByPostId(postId);
-
-//     List<Comment> sortedComments = comments.stream()
-//                                           .sorted((c1, c2) -> c2.getUpdatedAt().compareTo(c1.getUpdatedAt()))
-//                                           .collect(Collectors.toList());
-//     return sortedComments.stream()
-//                     .map(comment -> {
-//                       DBUser user = dbUserRepository.findById(comment.getUserId())
-//                                                     .orElseThrow(() -> new RuntimeException("User not found"));
-//                       return new CommentDTO(
-//                           comment.getId(),
-//                           comment.getContent(),
-//                           user.getUsername(),
-//                           comment.getUserId(),
-//                           comment.getCreatedAt(),
-//                           comment.getUpdatedAt()
-//                       );
-//                     })
-//                     .collect(Collectors.toList());
-//   }
 
 
 // ------------------------ CREATE COMMENT ---------------------------
 
 
   public CommentDTO createComment(Long postId, CommentDTO commentDTO) {
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     // Vérifier si le post existe
     if (!postRepository.existsById(postId)) {
@@ -209,9 +195,15 @@ public class PostService {
         savedComment.getContent(),
         dbUser.getUsername(),
         savedComment.getUserId(),
-        savedComment.getCreatedAt(),
-        savedComment.getUpdatedAt()
+        savedComment.getCreatedAt().format(formatter),
+        savedComment.getUpdatedAt().format(formatter)
     );
+  }
+
+  public String getTopicNameById(Long topicId) {
+    return topicRepository.findById(topicId)
+        .map(Topic::getName)
+        .orElse("Unknown Topic");
   }
 
 }
