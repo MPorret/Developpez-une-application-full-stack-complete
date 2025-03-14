@@ -23,7 +23,6 @@ const routes: Routes = [
   { path: 'posts',
     canActivate: [AuthGuard],
     component: PostsComponent },
-
   {
     path: '',
     canActivate: [UnauthGuard],

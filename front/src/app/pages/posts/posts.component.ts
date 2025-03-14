@@ -41,7 +41,6 @@ export class PostsComponent implements OnInit {
         //
         //
         // ------- A faire : -------
-        // -créer la route de création d'article en back
         // -page articles + modification de la navbar
         // -Ajout de commentaires
         // -infos utilisateur
@@ -49,11 +48,11 @@ export class PostsComponent implements OnInit {
         //
         //
         this.posts = data;
+        console.log('this posts -> ', this.posts);
       },
       (error: Error) => {
         console.error('Error fetching posts', error);
       }
     );
-    console.log('this posts -> ', this.posts);
   }
 }

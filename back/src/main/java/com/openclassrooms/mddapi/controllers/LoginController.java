@@ -85,12 +85,6 @@ public class LoginController {
       logger.info("New user email : " + newUser.getEmail());
       logger.info("New user password : " + newUser.getPassword());
 
-      // /!\
-      // Faut-il réaliser l'encryptage ici ou dans le service ???
-      // /!\
-      // // Encoder le mot de passe avant de sauvegarder l'utilisateur pour s'assurer de la sécurité de la BDD
-      // newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
-
       logger.info("encrypted password : " + bCryptPasswordEncoder.encode(newUser.getPassword()));
 
       // Sauvegarder le nouvel utilisateur :
