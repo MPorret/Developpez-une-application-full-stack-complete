@@ -1,3 +1,15 @@
+<div class="flex flex-row w-full pt-8 px-8 justify-between">
+  <button
+        mat-raised-button color="primary"
+        class="font-bold text-xl font-inter !rounded-md !py-1"
+      >
+        Créer un article
+      </button>
+      <div class="self-center flex flex-row gap-2">
+        <p class="font-bold text-xl font-inter">Trier par</p>
+        <p class="font-thin text-xl font-inter">&darr;</p>
+      </div>
+</div>
 <div
   *ngIf="posts.length > 0"
   class="w-full h-full flex flex-row flex-wrap gap-3 align-middle justify-center py-8"
@@ -5,12 +17,13 @@
   <div
     *ngFor="let post of posts"
     class="w-[48%] bg-gray-100 rounded-lg p-4 h-[180px]"
+    [routerLink]="['/posts', post.id]"
   >
-    <h2>{{ post.title }}</h2>
-    <div class="w-full flex flex-row justify-between">
-      <p class="w-1/2">{{ post.updatedAt }}</p>
-      <p class="w-1/2">{{ post.authorName }}</p>
+    <p class="text-xl font-bold font-inter">{{ post.title }}</p>
+    <div class="w-full flex flex-row justify-between font-inter">
+      <p class="w-1/2 font-normal text-md">{{ post.updatedAt }}</p>
+      <p class="w-1/2 font-normal text-md">{{ post.authorName }}</p>
     </div>
-    <p class="line-clamp-3 text-ellipsis ...">{{ post.content }}</p>
+    <p class="font-normal text-md font-inter line-clamp-4 text-ellipsis ...">{{ post.content }}</p>
   </div>
 </div>

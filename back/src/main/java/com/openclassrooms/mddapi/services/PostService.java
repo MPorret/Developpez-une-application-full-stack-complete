@@ -13,10 +13,12 @@ import com.openclassrooms.mddapi.models.Comment;
 import com.openclassrooms.mddapi.models.DBUser;
 import com.openclassrooms.mddapi.models.Post;
 import com.openclassrooms.mddapi.models.Subscription;
+import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.repository.CommentRepository;
 import com.openclassrooms.mddapi.repository.DBUserRepository;
 import com.openclassrooms.mddapi.repository.PostRepository;
 import com.openclassrooms.mddapi.repository.SubscriptionRepository;
+import com.openclassrooms.mddapi.repository.TopicRepository;
 
 @Service
 public class PostService {
@@ -32,6 +34,9 @@ public class PostService {
 
   @Autowired
   private DBUserRepository dbUserRepository;
+
+  @Autowired
+  private TopicRepository topicRepository;
 
   public List<PostDTO> getPostsByUserId(Long userId) {
 
@@ -163,33 +168,6 @@ public class PostService {
   }
 
 
-// // ------------------------ GET COMMENTS BY POST ID ---------------------------
-
-
-//   public List<CommentDTO> getCommentsByPostId(Long postId){
-
-//     List<Comment> comments = commentRepository.findByPostId(postId);
-
-//     List<Comment> sortedComments = comments.stream()
-//                                           .sorted((c1, c2) -> c2.getUpdatedAt().compareTo(c1.getUpdatedAt()))
-//                                           .collect(Collectors.toList());
-//     return sortedComments.stream()
-//                     .map(comment -> {
-//                       DBUser user = dbUserRepository.findById(comment.getUserId())
-//                                                     .orElseThrow(() -> new RuntimeException("User not found"));
-//                       return new CommentDTO(
-//                           comment.getId(),
-//                           comment.getContent(),
-//                           user.getUsername(),
-//                           comment.getUserId(),
-//                           comment.getCreatedAt(),
-//                           comment.getUpdatedAt()
-//                       );
-//                     })
-//                     .collect(Collectors.toList());
-//   }
-
-
 // ------------------------ CREATE COMMENT ---------------------------
 
 
@@ -220,6 +198,12 @@ public class PostService {
         savedComment.getCreatedAt().format(formatter),
         savedComment.getUpdatedAt().format(formatter)
     );
+  }
+
+  public String getTopicNameById(Long topicId) {
+    return topicRepository.findById(topicId)
+        .map(Topic::getName)
+        .orElse("Unknown Topic");
   }
 
 }

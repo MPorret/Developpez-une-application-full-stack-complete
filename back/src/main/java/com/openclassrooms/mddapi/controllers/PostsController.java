@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.mddapi.DTO.CommentDTO;
 import com.openclassrooms.mddapi.DTO.PostDTO;
 import com.openclassrooms.mddapi.services.PostService;
@@ -35,10 +38,25 @@ public class PostsController {
     return ResponseEntity.ok(createdPost);
   }
 
+  // @GetMapping("/{postId}")
+  // public ResponseEntity<PostDTO> getPostById(@PathVariable Long postId) {
+  //   PostDTO postDTO = postService.getPostById(postId);
+  //   return ResponseEntity.ok(postDTO);
+  // }
+
   @GetMapping("/{postId}")
-  public ResponseEntity<PostDTO> getPostById(@PathVariable Long postId) {
-    PostDTO postDTO = postService.getPostById(postId);
-    return ResponseEntity.ok(postDTO);
+  public ResponseEntity<?> getPostById(@PathVariable Long postId) {
+      PostDTO postDTO = postService.getPostById(postId);
+
+      // Convertir l'objet DTO en Map
+      ObjectMapper objectMapper = new ObjectMapper();
+      Map<String, Object> postMap = objectMapper.convertValue(postDTO, new TypeReference<Map<String, Object>>() {});
+
+      // Ajouter topicName dans la map
+      String topicName = postService.getTopicNameById(postDTO.getTopicId());
+      postMap.put("topicName", topicName);
+
+      return ResponseEntity.ok(postMap);
   }
 
   // @GetMapping("/{postId}/comments")

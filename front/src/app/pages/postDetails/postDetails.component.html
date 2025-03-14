@@ -1,0 +1,60 @@
+<div class="flex flex-row pt-4">
+  <i class="fa-solid fa-arrow-left fa-2xl pt-8 pl-8" style="color: #000000;"></i>
+  <div
+    *ngIf="post"
+    class="ml-6 mr-10"
+  >
+    <p class="self-center text-lg font-bold text-3xl font-inter p-4">
+      {{ post.title }}
+    </p>
+
+  <div class="flex flex-row gap-10 p-4 font-inter text-2xl">
+    <p>{{ post.updatedAt }}</p>
+    <p>{{ post.authorName }}</p>
+    <p>{{ post.topicName }}</p>
+  </div>
+
+  <p class="font-inter text-2xl p-4 text-justify ">
+    {{ post.content }}
+  </p>
+
+  <hr class="bg-black border border-black m-4"/>
+
+  <p class="font-inter text-2xl p-4">
+    Commentaires
+  </p>
+  <div class="mx-10">
+    <div
+      *ngFor="let comment of post.comments"
+      class="flex flex-col"
+    >
+      <div class="flex flex-row gap-8 p-4">
+        <p class="font-inter text-2xl w-[4em]">
+          {{ comment.userName }}
+        </p>
+        <div class="w-full bg-light-grey rounded-lg min-h-[100px] p-4">
+          <p class="font-inter text-2xl">
+            {{ comment.content }}
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-4 ml-[8.5em] mr-4 flex flex-row">
+        <textarea
+          [(ngModel)]="newCommentContent"
+          class="w-full text-2xl rounded-lg border border-black p-4 min-h-[100px]"
+          rows="4"
+          placeholder="Écrivez votre commentaire..."
+        ></textarea>
+        <button
+          (click)="submitComment()"
+          class="ml-6"
+        >
+        <i class="fa-regular fa-paper-plane fa-2xl" style="color: #7763C5;"></i>
+        </button>
+      </div>
+
+    </div>
+    </div>
+  </div>
+</div>

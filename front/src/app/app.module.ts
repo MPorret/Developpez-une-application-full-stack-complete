@@ -7,10 +7,12 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { TopicsComponent } from './pages/topics/topics.component';
 import { PostsComponent } from './pages/posts/posts.component';
+import { PostDetailsComponent } from './pages/postDetails/postDetails.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AuthModule } from './auth/auth.module';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,6 +20,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     TopicsComponent,
     PostsComponent,
     NavbarComponent,
+    PostDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,6 +28,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     BrowserAnimationsModule,
     MatButtonModule,
     HttpClientModule,
+    FormsModule,
     // AuthModule,
   ],
   providers: [

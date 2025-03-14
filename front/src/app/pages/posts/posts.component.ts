@@ -33,20 +33,6 @@ export class PostsComponent implements OnInit {
     this.postService.getPostsByUserId(this.currentUserId).subscribe(
       (data: Post[]) => {
         console.log('data from api: ', data);
-        // /!\
-        // /!\
-        // ---------> /!\ this.posts n'est pas mis à jour avec data et reste vide /!\ <---------
-        // /!\
-        // /!\
-        //
-        //
-        // ------- A faire : -------
-        // -page articles + modification de la navbar
-        // -Ajout de commentaires
-        // -infos utilisateur
-        // -responsive
-        //
-        //
         this.posts = data;
         console.log('this posts -> ', this.posts);
       },
