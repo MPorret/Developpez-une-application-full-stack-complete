@@ -1,0 +1,46 @@
+<div class="flex flex-row w-full pt-8 px-8 justify-between">
+  <button
+        mat-raised-button color="primary"
+        class="font-bold text-xl font-inter !rounded-md !py-1"
+        [routerLink]="['/post/create']"
+      >
+        Créer un article
+      </button>
+      <div
+        class="self-center flex flex-row gap-2"
+        (click)="toggleSortOrder()"
+      >
+        <p class="font-bold text-xl font-inter cursor-pointer">
+          Trier par
+        </p>
+        <p
+          class="font-thin text-xl font-inter cursor-pointer"
+          *ngIf="sortOrder"
+        >
+          &darr;
+        </p>
+        <p
+          class="font-thin text-xl font-inter cursor-pointer"
+          *ngIf="!sortOrder"
+        >
+          &uarr;
+        </p>
+      </div>
+</div>
+<div
+  *ngIf="posts.length > 0"
+  class="w-full h-fit flex flex-row flex-wrap gap-3 align-middle justify-center py-8"
+>
+  <div
+    *ngFor="let post of posts"
+    class="w-[48%] bg-gray-100 rounded-lg p-4 h-[180px]"
+    [routerLink]="['/posts', post.id]"
+  >
+    <p class="text-xl font-bold font-inter">{{ post.title }}</p>
+    <div class="w-full flex flex-row justify-between font-inter">
+      <p class="w-1/2 font-normal text-md">{{ post.updatedAt }}</p>
+      <p class="w-1/2 font-normal text-md">{{ post.authorName }}</p>
+    </div>
+    <p class="font-normal text-md font-inter line-clamp-4 text-ellipsis ...">{{ post.content }}</p>
+  </div>
+</div>

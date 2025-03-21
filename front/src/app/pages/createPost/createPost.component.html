@@ -1,0 +1,70 @@
+<div class="w-full h-fit flex flex-row mt-12 mx-12">
+  <i
+    class="fa-solid fa-arrow-left fa-2xl mr-12"
+    style="color: #000000;"
+    [routerLink]="['/posts']"
+  >
+  </i>
+</div>
+  <div class="w-1/4 m-auto">
+    <div class="flex justify-center">
+      <p class="text-3xl font-bold font-inter p-4">Créer un post</p>
+    </div>
+    <form [formGroup]="postForm" (ngSubmit)="createPost()">
+      <div class="text-2xl border-2 border-purple p-2 rounded-md mb-4">
+        <input
+          id="title"
+          formControlName="title"
+          type="text"
+          placeholder="Titre de l'article"
+          class="w-full"
+        />
+      </div>
+
+      <div>
+        <select
+          id="topicId"
+          formControlName="topicId"
+          class="w-full text-2xl border-2 border-purple p-2 rounded-md mb-4 bg-white"
+        >
+          <option
+            class="text-gray-300"
+            value=""
+            disabled selected
+          >
+            Sélectionnez un thème
+          </option>
+          <option *ngFor="let topic of topics" [value]="topic.id">{{ topic.name }}</option>
+        </select>
+
+        <div  class="w-full"
+          *ngIf="postForm.get('topicId')?.invalid && postForm.get('topicId')?.touched"
+        >
+          <small *ngIf="postForm.get('topicId')?.hasError('required')">Le thème est requis.</small>
+        </div>
+      </div>
+
+      <div class="text-2xl border-2 border-purple p-2 rounded-md mb-4">
+        <textarea
+          id="content"
+          formControlName="content"
+          placeholder="Contenu de l'article"
+          class="w-full h-[200px]"
+        >
+        </textarea>
+        <div *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched">
+          <small *ngIf="postForm.get('content')?.hasError('required')">Le contenu est requis.</small>
+        </div>
+      </div>
+
+      <div class="flex justify-center">
+        <button
+          type="submit"
+          [disabled]="postForm.invalid"
+          class="text-2xl bg-purple text-white px-10 py-3 rounded-md mt-4"
+        >
+          Créer
+        </button>
+      </div>
+    </form>
+  </div>
