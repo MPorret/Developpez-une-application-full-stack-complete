@@ -13,6 +13,9 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AuthModule } from './auth/auth.module';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { FormsModule } from '@angular/forms';
+import { UserDetailsComponent } from './pages/userDetails/userDetails.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CreatePostComponent } from './pages/createPost/createPost.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +24,8 @@ import { FormsModule } from '@angular/forms';
     PostsComponent,
     NavbarComponent,
     PostDetailsComponent,
+    UserDetailsComponent,
+    CreatePostComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,6 +34,7 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     // AuthModule,
   ],
   providers: [
