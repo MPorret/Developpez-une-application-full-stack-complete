@@ -1,5 +1,10 @@
 <div class="flex flex-row pt-4">
-  <i class="fa-solid fa-arrow-left fa-2xl pt-8 pl-8" style="color: #000000;"></i>
+  <i
+    class="fa-solid fa-arrow-left fa-2xl pt-8 pl-8"
+    style="color: #000000;"
+    [routerLink]="['/posts']"
+  >
+  </i>
   <div
     *ngIf="post"
     class="ml-6 mr-10"
@@ -18,43 +23,48 @@
     {{ post.content }}
   </p>
 
-  <hr class="bg-black border border-black m-4"/>
+  <hr class="bg-black border-black m-4"/>
 
   <p class="font-inter text-2xl p-4">
     Commentaires
   </p>
-  <div class="mx-10">
-    <div
-      *ngFor="let comment of post.comments"
-      class="flex flex-col"
-    >
-      <div class="flex flex-row gap-8 p-4">
-        <p class="font-inter text-2xl w-[4em]">
-          {{ comment.userName }}
-        </p>
-        <div class="w-full bg-light-grey rounded-lg min-h-[100px] p-4">
-          <p class="font-inter text-2xl">
-            {{ comment.content }}
+
+
+  <div class="ml-12 w-full pr-12 flex flex-col gap-8">
+    <div class="grid grid-cols-[minmax(0,_1fr)_43px] w-full gap-4 items-center">
+      <div class="flex flex-col gap-4">
+        <div
+          *ngFor="let comment of post.comments"
+          class="flex flex-row items-start gap-8"
+        >
+          <p class="font-inter text-2xl w-[4em] text-right">
+            {{ comment.userName }}
           </p>
+          <div class="w-full bg-light-grey rounded-lg min-h-[100px] p-4">
+            <p class="font-inter text-2xl">
+              {{ comment.content }}
+            </p>
+          </div>
         </div>
       </div>
-
-      <div class="mt-4 ml-[8.5em] mr-4 flex flex-row">
-        <textarea
-          [(ngModel)]="newCommentContent"
-          class="w-full text-2xl rounded-lg border border-black p-4 min-h-[100px]"
-          rows="4"
-          placeholder="Écrivez votre commentaire..."
-        ></textarea>
-        <button
-          (click)="submitComment()"
-          class="ml-6"
-        >
-        <i class="fa-regular fa-paper-plane fa-2xl" style="color: #7763C5;"></i>
-        </button>
-      </div>
-
     </div>
+
+    <div class="grid grid-cols-[minmax(0,_1fr)_43px] w-full gap-4 items-center mb-12">
+      <textarea
+        [(ngModel)]="newCommentContent"
+        class="w-full text-2xl rounded-lg border border-black p-4 min-h-[100px] col-start-1"
+        rows="4"
+        placeholder="Écrivez votre commentaire..."
+      ></textarea>
+
+      <button
+        (click)="submitComment()"
+        class="col-start-2"
+      >
+        <i class="fa-regular fa-paper-plane fa-3x" style="color: #7763C5;"></i>
+      </button>
     </div>
+
   </div>
+
 </div>

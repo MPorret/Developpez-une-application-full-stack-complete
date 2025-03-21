@@ -9,7 +9,7 @@ import { Post } from 'src/app/models/post.model';
 })
 export class PostService {
 
-  private apiUrl = 'api/posts'; // Assure-toi que l'URL est correcte
+  private apiUrl = 'api/posts';
 
   constructor(private http: HttpClient) {}
 
@@ -20,5 +20,9 @@ export class PostService {
 
   getPostById(postId: number): Observable<Post> {
     return this.http.get<Post>(`${this.apiUrl}/${postId}`);
+  }
+
+  createPost(post: Post): Observable<Post> {
+    return this.http.post<Post>(this.apiUrl, post);
   }
 }

@@ -1,4 +1,4 @@
-<div class="w-full h-full flex flex-row flex-wrap gap-3 align-middle justify-center py-8">
+<div class="w-full h-fit flex flex-row flex-wrap gap-3 align-middle justify-center py-8">
   <div
     class="w-[48%] bg-gray-100 rounded-lg p-4"
     *ngFor="let topic of topics"
@@ -6,12 +6,26 @@
     <p class="text-xl font-bold font-inter"> {{ topic.name }} </p>
     <p class="font-normal text-md font-inter"> {{ topic.description }} </p>
     <div class="w-full flex justify-center">
+
       <button
         mat-raised-button color="primary"
         class="font-normal text-md font-inter !rounded-md"
+        *ngIf="!isSubscribed(topic.id)"
+        (click)="subscribeToTopic(topic.id)"
       >
         S'abonner
       </button>
+
+      <button
+        mat-raised-button
+        class="font-normal text-md font-inter !rounded-md bg-disabled-grey text-white"
+        *ngIf="isSubscribed(topic.id)"
+        (click)="unsubscribeFromTopic(topic.id)"
+      >
+
+        Se désabonner
+      </button>
+
     </div>
   </div>
 </div>

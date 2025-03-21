@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.services;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -171,34 +172,68 @@ public class PostService {
 // ------------------------ CREATE COMMENT ---------------------------
 
 
-  public CommentDTO createComment(Long postId, CommentDTO commentDTO) {
+  // public CommentDTO createComment(Long postId, CommentDTO commentDTO) {
+
+  //   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+  //   // Vérifier si le post existe
+  //   if (!postRepository.existsById(postId)) {
+  //     throw new RuntimeException("Post not found");
+  //   }
+
+  //   Comment comment = new Comment();
+  //   comment.setContent(commentDTO.getContent());
+  //   comment.setUserId(commentDTO.getUserId());
+  //   comment.setPostId(postId);
+
+  //   Comment savedComment = commentRepository.save(comment);
+
+  //   DBUser dbUser = dbUserRepository.findById(savedComment.getUserId())
+  //                                   .orElseThrow(() -> new RuntimeException("User not found"));
+
+  //   return new CommentDTO(
+  //       savedComment.getId(),
+  //       savedComment.getContent(),
+  //       dbUser.getUsername(),
+  //       savedComment.getUserId(),
+  //       savedComment.getCreatedAt().format(formatter),
+  //       savedComment.getUpdatedAt().format(formatter)
+  //   );
+  // }
+
+  public CommentDTO createComment(Long postId, String content, Long userId) {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     // Vérifier si le post existe
     if (!postRepository.existsById(postId)) {
-      throw new RuntimeException("Post not found");
+        throw new RuntimeException("Post not found");
     }
 
+    // Récupérer l'utilisateur connecté depuis la base de données
+    DBUser dbUser = dbUserRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    // Créer le commentaire
     Comment comment = new Comment();
-    comment.setContent(commentDTO.getContent());
-    comment.setUserId(commentDTO.getUserId());
+    comment.setContent(content);
+    comment.setUserId(dbUser.getId()); // Utiliser l'ID récupéré depuis le token
     comment.setPostId(postId);
+    comment.setCreatedAt(LocalDateTime.now());
+    comment.setUpdatedAt(LocalDateTime.now());
 
     Comment savedComment = commentRepository.save(comment);
-
-    DBUser dbUser = dbUserRepository.findById(savedComment.getUserId())
-                                    .orElseThrow(() -> new RuntimeException("User not found"));
 
     return new CommentDTO(
         savedComment.getId(),
         savedComment.getContent(),
         dbUser.getUsername(),
-        savedComment.getUserId(),
+        dbUser.getId(),
         savedComment.getCreatedAt().format(formatter),
         savedComment.getUpdatedAt().format(formatter)
     );
   }
+
 
   public String getTopicNameById(Long topicId) {
     return topicRepository.findById(topicId)

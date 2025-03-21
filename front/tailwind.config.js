@@ -10,6 +10,7 @@ module.exports = {
         'grey': '#F5F5F5',
         'dark-grey': '#D9D9D9',
         'light-grey': '#EEEEEE',
+        'disabled-grey': '#939393',
         'red': '#A40F0F',
       },
       fontFamily: {

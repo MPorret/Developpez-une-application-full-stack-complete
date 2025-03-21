@@ -14,6 +14,7 @@ export class PostsComponent implements OnInit {
 
   posts: Post[] = [];
   currentUserId: number = 0;
+  sortOrder: boolean = true;
 
   constructor(private postService: PostService, private authService: AuthService) {}
 
@@ -32,13 +33,31 @@ export class PostsComponent implements OnInit {
   loadPosts(): void {
     this.postService.getPostsByUserId(this.currentUserId).subscribe(
       (data: Post[]) => {
-        console.log('data from api: ', data);
         this.posts = data;
-        console.log('this posts -> ', this.posts);
+        this.sortPosts();
       },
       (error: Error) => {
         console.error('Error fetching posts', error);
       }
     );
+  }
+
+  convertDate(dateString: string): Date {
+    const [day, month, year] = dateString.split('/');
+    return new Date(`${year}-${month}-${day}`);
+  }
+
+
+  sortPosts(): void {
+    if (this.sortOrder) {
+      this.posts.sort((a, b) => this.convertDate(b.updatedAt).getTime() - this.convertDate(a.updatedAt).getTime());
+    } else {
+      this.posts.sort((a, b) => this.convertDate(a.updatedAt).getTime() - this.convertDate(b.updatedAt).getTime());
+    }
+  }
+
+  toggleSortOrder(): void {
+    this.sortOrder = !this.sortOrder;
+    this.sortPosts();
   }
 }

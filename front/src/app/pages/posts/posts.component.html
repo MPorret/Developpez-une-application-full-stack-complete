@@ -2,17 +2,34 @@
   <button
         mat-raised-button color="primary"
         class="font-bold text-xl font-inter !rounded-md !py-1"
+        [routerLink]="['/post/create']"
       >
         Créer un article
       </button>
-      <div class="self-center flex flex-row gap-2">
-        <p class="font-bold text-xl font-inter">Trier par</p>
-        <p class="font-thin text-xl font-inter">&darr;</p>
+      <div
+        class="self-center flex flex-row gap-2"
+        (click)="toggleSortOrder()"
+      >
+        <p class="font-bold text-xl font-inter cursor-pointer">
+          Trier par
+        </p>
+        <p
+          class="font-thin text-xl font-inter cursor-pointer"
+          *ngIf="sortOrder"
+        >
+          &darr;
+        </p>
+        <p
+          class="font-thin text-xl font-inter cursor-pointer"
+          *ngIf="!sortOrder"
+        >
+          &uarr;
+        </p>
       </div>
 </div>
 <div
   *ngIf="posts.length > 0"
-  class="w-full h-full flex flex-row flex-wrap gap-3 align-middle justify-center py-8"
+  class="w-full h-fit flex flex-row flex-wrap gap-3 align-middle justify-center py-8"
 >
   <div
     *ngFor="let post of posts"
