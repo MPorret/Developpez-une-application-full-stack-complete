@@ -16,6 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { UserDetailsComponent } from './pages/userDetails/userDetails.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreatePostComponent } from './pages/createPost/createPost.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +37,8 @@ import { CreatePostComponent } from './pages/createPost/createPost.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MatSidenavModule,
+    MatIconModule,
     // AuthModule,
   ],
   providers: [

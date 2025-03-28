@@ -10,6 +10,7 @@ import { CommentService } from 'src/app/services/comments/comments.service';
 import { Topic } from 'src/app/models/topic.model';
 import { TopicsService } from 'src/app/services/topics/topics.service';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-posts',
@@ -24,6 +25,8 @@ export class CreatePostComponent implements OnInit {
   postId: number = 0;
   successMessage: string = '';
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private postService: PostService,
     private authService: AuthService,
@@ -33,7 +36,9 @@ export class CreatePostComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.me().subscribe(
+    this.authService.me()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(
       (user) => {
         this.currentUserId = user.id;
       },
@@ -50,7 +55,9 @@ export class CreatePostComponent implements OnInit {
     });
 
     // Charger les thèmes disponibles
-    this.topicsService.getAllTopics().subscribe(
+    this.topicsService.getAllTopics()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(
       (topics) => {
         this.topics = topics;
       },
@@ -78,7 +85,9 @@ export class CreatePostComponent implements OnInit {
       topicName: ''  // Tu peux récupérer le nom du thème ici si nécessaire
     };
 
-    this.postService.createPost(postData).subscribe(
+    this.postService.createPost(postData)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(
       (newPost) => {
         // Réinitialiser le formulaire après la soumission
         this.postForm.reset();
@@ -95,5 +104,10 @@ export class CreatePostComponent implements OnInit {
         console.error('Erreur lors de la création du post', error);
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -100,7 +101,7 @@ public class SubscriptionController {
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteSubscription(@RequestParam Long topicId) {
+    public ResponseEntity<Map<String, String>> deleteSubscription(@RequestParam Long topicId) {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
       if (authentication == null || !authentication.isAuthenticated()) {
@@ -118,7 +119,10 @@ public class SubscriptionController {
       Long userId = user.getId();
 
       subscriptionService.deleteSubscription(userId, topicId);
-      return ResponseEntity.ok("Subscription deleted successfully");
+
+      Map<String, String> response = new HashMap<>();
+      response.put("message", "Subscription deleted successfully");
+      return ResponseEntity.ok(response);
     }
 
 }

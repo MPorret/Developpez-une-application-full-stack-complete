@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Topic } from 'src/app/models/topic.model';
 import { TopicsService } from 'src/app/services/topics/topics.service';
 import { SubscriptionService } from 'src/app/services/subscriptions/subscriptions.service';
@@ -15,7 +15,8 @@ export class TopicsComponent implements OnInit {
 
   constructor(
     private topicsService: TopicsService,
-    private subscriptionService: SubscriptionService
+    private subscriptionService: SubscriptionService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +48,7 @@ export class TopicsComponent implements OnInit {
     this.subscriptionService.createSubscription(topicId).subscribe(
       (newSubscription: Subscription) => {
         this.userSubscriptions.push(newSubscription);
+        this.cdr.markForCheck();
       },
       (error: any) => {
         console.error("Can't subscribe to topic", error);
@@ -56,12 +58,14 @@ export class TopicsComponent implements OnInit {
 
   unsubscribeFromTopic(topicId: number): void {
     this.subscriptionService.deleteSubscription(topicId).subscribe(
-      (newSubscription: Subscription) => {
-        this.userSubscriptions.push(newSubscription);
+      () => {
+        this.userSubscriptions = this.userSubscriptions.filter(sub => sub.topicId !== topicId);
+        this.cdr.markForCheck();
       },
       (error: any) => {
         console.error("Can't unsubscribe", error);
       }
     );
   }
+
 }

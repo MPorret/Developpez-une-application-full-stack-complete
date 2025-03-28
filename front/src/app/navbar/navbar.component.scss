@@ -1,0 +1,9 @@
+.burger-button {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .burger-button {
+    display: block;
+  }
+}
