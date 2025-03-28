@@ -71,10 +71,10 @@ export class UserDetailsComponent implements OnInit {
     );
   }
 
-  // ngOnChange(){
-  //   this.updateFilteredTopics()
-  //   return this.topics.filter(topic => this.isSubscribed(topic.id));
-  // }
+  ngOnChange(){
+    this.updateFilteredTopics()
+    return this.topics.filter(topic => this.isSubscribed(topic.id));
+  }
 
   updateFilteredTopics(): void {
     this.filteredTopics = this.topics.filter(topic => this.isSubscribed(topic.id));
@@ -142,12 +142,4 @@ export class UserDetailsComponent implements OnInit {
         }
       );
     }
-
-    // Lorsque je modifie les détails utilisateur, au rechargement ou changement de page, plus rien ne fonctionne.
-    // Il semblerait que l'utilisateur ne puisse plus être trouvé.
-    // Lors de la déconnection / reconnection, tout fonctionne à nouveau et l'utilisateur est bien modifié.
-
-    // Les topics ne se mettent pas à jour en temps réel lorsque je me désabonne sur la page userDetails.
-    // Il faut recharger la page pour que les topics se mettent à jour.
-
 }

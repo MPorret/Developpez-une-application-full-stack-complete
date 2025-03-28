@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/services/auth.service';
+import { MatSidenav } from '@angular/material/sidenav';
+import { SessionService } from '../services/session.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,15 +11,25 @@ import { AuthService } from '../auth/services/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(public router: Router, private authService: AuthService) {}
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+
+  constructor(public router: Router, private sessionService: SessionService) {}
 
   ngOnInit(): void {
   }
 
   logout() {
-    this.authService.logout().subscribe(() => {
-      this.router.navigate(['/']);
-    });
+    this.sessionService.logOut()
+    this.router.navigate(['/']);
+    this.sidenav.close();
+  }
+
+  openSidenav() {
+    this.sidenav.open();
+  }
+
+  closeSidenav() {
+    this.sidenav.close();
   }
 
 }

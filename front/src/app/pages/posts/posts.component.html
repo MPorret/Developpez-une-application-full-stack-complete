@@ -33,7 +33,7 @@
 >
   <div
     *ngFor="let post of posts"
-    class="w-[48%] bg-gray-100 rounded-lg p-4 h-[180px]"
+    class="desktop:w-[48%] w-full bg-gray-100 rounded-lg p-4 h-[180px]"
     [routerLink]="['/posts', post.id]"
   >
     <p class="text-xl font-bold font-inter">{{ post.title }}</p>

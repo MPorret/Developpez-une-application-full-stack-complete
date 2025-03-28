@@ -44,13 +44,13 @@ export class LoginComponent implements OnInit {
         this.authService.me().subscribe(
           (user: User) => {
             this.sessionService.logIn(user);
-            this.router.navigate(['/topics']);
+            this.router.navigate(['/posts']);
           },
           error => {
             console.error('Error fetching user details:', error);
           }
         );
-        this.router.navigate(['/topics']);
+        this.router.navigate(['/posts']);
       },
       error => {
         console.error('Login failed:', error);

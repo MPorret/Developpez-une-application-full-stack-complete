@@ -19,23 +19,11 @@ export class AuthService {
     return this.httpClient.post<AuthSuccess>(`${this.pathService}/register`, registerRequest);
   }
 
-  // public login(loginRequest: LoginRequest): Observable<AuthSuccess> {
-  //   return this.httpClient.post<AuthSuccess>(`${this.pathService}/login`, loginRequest);
-  // }
-
   public login(loginRequest: LoginRequest): Observable<AuthSuccess> {
     return this.httpClient.post<AuthSuccess>(`${this.pathService}/login`, loginRequest).pipe(
       tap((response: AuthSuccess) => {
         localStorage.setItem('token', response.token);
-        console.log('localStorage token -> ', localStorage.getItem('token'));
-      })
-    );
-  }
-
-  public logout(): Observable<void> {
-    return this.httpClient.post<void>(`/api/logout`, null).pipe(
-      tap(() => {
-        localStorage.removeItem('token');
+        // console.log('localStorage token -> ', localStorage.getItem('token'));
       })
     );
   }
