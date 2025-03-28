@@ -27,7 +27,6 @@ import com.openclassrooms.mddapi.DTO.LoginRequest;
 import com.openclassrooms.mddapi.DTO.LoginResponse;
 import com.openclassrooms.mddapi.DTO.RegisterRequest;
 import com.openclassrooms.mddapi.models.DBUser;
-import com.openclassrooms.mddapi.repository.DBUserRepository;
 import com.openclassrooms.mddapi.services.AuthService;
 import com.openclassrooms.mddapi.services.DBUserService;
 import com.openclassrooms.mddapi.services.JWTService;
@@ -36,8 +35,6 @@ import com.openclassrooms.mddapi.services.JWTService;
 @RestController
 public class LoginController {
 
-  @Autowired
-  private DBUserRepository dbUserRepository;
   @Autowired
   private DBUserService dbUserService;
   @Autowired

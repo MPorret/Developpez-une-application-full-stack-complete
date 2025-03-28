@@ -15,8 +15,6 @@ import com.openclassrooms.mddapi.repository.TopicRepository;
 @Service
 public class TopicService {
 
-  // private static final Logger logger = LoggerFactory.getLogger(TopicService.class);
-
   @Autowired
   private TopicRepository topicRepository;
 
@@ -32,7 +30,6 @@ public class TopicService {
                 .map(topic -> new TopicDTO(topic.getId(), topic.getName(), topic.getDescription()))
                 .collect(Collectors.toList());
   }
-
 
   public List<TopicDTO> getTopicsByUserId(Long userId) {
     List<Subscription> subscriptions = subscriptionRepository.findByUserId(userId);

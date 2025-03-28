@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.mddapi.DTO.TopicDTO;
 import com.openclassrooms.mddapi.services.TopicService;
 
-
 @RestController
 @RequestMapping("/api/topics")
 public class TopicsController {
@@ -28,5 +27,4 @@ public class TopicsController {
   public List<TopicDTO> getTopicsByUserId(@PathVariable Long userId) {
     return topicService.getTopicsByUserId(userId);
   }
-
 }

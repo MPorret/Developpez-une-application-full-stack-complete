@@ -43,5 +43,4 @@ public class Subscription {
   public void setTopicId(Long topicId) {
     this.topicId = topicId;
   }
-
 }

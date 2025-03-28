@@ -8,6 +8,8 @@ import { Topic } from 'src/app/models/topic.model';
 import { Subscription } from 'src/app/models/subscription.model';
 import { TopicsService } from 'src/app/services/topics/topics.service';
 import { SubscriptionService } from 'src/app/services/subscriptions/subscriptions.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-details',
@@ -23,6 +25,7 @@ export class UserDetailsComponent implements OnInit {
   topics: Topic[] = [];
   userSubscriptions: Subscription[] = [];
   filteredTopics: Topic[] = [];
+  private destroy$ = new Subject<void>();
 
   constructor(
     private authService: AuthService,
@@ -40,7 +43,7 @@ export class UserDetailsComponent implements OnInit {
       password: ['']
     });
 
-    this.authService.me().subscribe(
+    this.authService.me().pipe(takeUntil(this.destroy$)).subscribe(
       (user: User) => {
         this.currentUserId = user.id;
         this.loadUserDetails();
@@ -50,7 +53,7 @@ export class UserDetailsComponent implements OnInit {
       }
     );
 
-    this.topicsService.getAllTopics().subscribe(
+    this.topicsService.getAllTopics().pipe(takeUntil(this.destroy$)).subscribe(
       (data: Topic[]) => {
         this.topics = data;
         this.updateFilteredTopics()
@@ -60,7 +63,7 @@ export class UserDetailsComponent implements OnInit {
       }
     );
 
-    this.subscriptionService.getUsersSubscriptions().subscribe(
+    this.subscriptionService.getUsersSubscriptions().pipe(takeUntil(this.destroy$)).subscribe(
       (subscriptions: Subscription[]) => {
         this.userSubscriptions = subscriptions;
         this.updateFilteredTopics()
@@ -69,6 +72,11 @@ export class UserDetailsComponent implements OnInit {
         console.error("Can't fetch subscriptions", error);
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngOnChange(){
@@ -81,7 +89,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   loadUserDetails(): void {
-    this.userService.getUserById(this.currentUserId).subscribe(
+    this.userService.getUserById(this.currentUserId).pipe(takeUntil(this.destroy$)).subscribe(
       (data: User) => {
         this.userForm.patchValue({
           username: data.username,
@@ -103,7 +111,7 @@ export class UserDetailsComponent implements OnInit {
         id: this.currentUserId
       };
 
-      this.userService.updateUserDetails(updatedUser).subscribe(
+      this.userService.updateUserDetails(updatedUser).pipe(takeUntil(this.destroy$)).subscribe(
         () => {
           console.log('Utilisateur mis à jour avec succès');
         },
@@ -120,7 +128,7 @@ export class UserDetailsComponent implements OnInit {
     }
 
     subscribeToTopic(topicId: number): void {
-      this.subscriptionService.createSubscription(topicId).subscribe(
+      this.subscriptionService.createSubscription(topicId).pipe(takeUntil(this.destroy$)).subscribe(
         (newSubscription: Subscription) => {
           this.userSubscriptions.push(newSubscription);
           this.updateFilteredTopics();
@@ -132,7 +140,7 @@ export class UserDetailsComponent implements OnInit {
     }
 
     unsubscribeFromTopic(topicId: number): void {
-      this.subscriptionService.deleteSubscription(topicId).subscribe(
+      this.subscriptionService.deleteSubscription(topicId).pipe(takeUntil(this.destroy$)).subscribe(
         () => {
           this.userSubscriptions = this.userSubscriptions.filter(sub => sub.topicId !== topicId);
           this.updateFilteredTopics();

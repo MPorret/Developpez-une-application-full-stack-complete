@@ -61,5 +61,4 @@ public class PostDTO {
   public String getUpdatedAt() {
     return this.updatedAt;
   }
-
 }

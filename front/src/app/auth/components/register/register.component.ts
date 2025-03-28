@@ -6,6 +6,8 @@ import { AuthService } from '../../services/auth.service';
 import { RegisterRequest } from '../../interfaces/registerRequest.interface';
 import { AuthSuccess } from '../../interfaces/authSuccess.interface';
 import { User } from 'src/app/interfaces/user.interface';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -26,13 +28,14 @@ export class RegisterComponent {
     private fb: FormBuilder,
     private router: Router,
     private sessionService: SessionService) { }
+    private destroy$ = new Subject<void>();
 
   public submit(): void {
     const registerRequest = this.form.value as RegisterRequest;
-    this.authService.register(registerRequest).subscribe(
+    this.authService.register(registerRequest).pipe(takeUntil(this.destroy$)).subscribe(
       (response: AuthSuccess) => {
         localStorage.setItem('token', response.token);
-        this.authService.me().subscribe((user: User) => {
+        this.authService.me().pipe(takeUntil(this.destroy$)).subscribe((user: User) => {
           this.sessionService.logIn(user);
           this.router.navigate(['/posts'])
         });
@@ -41,4 +44,8 @@ export class RegisterComponent {
     );
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

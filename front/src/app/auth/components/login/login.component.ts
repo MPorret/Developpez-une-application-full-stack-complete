@@ -6,6 +6,8 @@ import { SessionService } from 'src/app/services/session.service';
 import { AuthSuccess } from '../../interfaces/authSuccess.interface';
 import { LoginRequest } from '../../interfaces/loginRequest.interface';
 import { AuthService } from '../../services/auth.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +18,7 @@ export class LoginComponent implements OnInit {
   public hide = true;
   public onError = false;
   public form!: FormGroup;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private authService: AuthService,
@@ -31,6 +34,11 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   public submit(): void {
     if (this.form.invalid) {
       this.onError = true;
@@ -38,10 +46,10 @@ export class LoginComponent implements OnInit {
     }
 
     const loginRequest = this.form.value as LoginRequest;
-    this.authService.login(loginRequest).subscribe(
+    this.authService.login(loginRequest).pipe(takeUntil(this.destroy$)).subscribe(
       (response: AuthSuccess) => {
         localStorage.setItem('token', response.token);
-        this.authService.me().subscribe(
+        this.authService.me().pipe(takeUntil(this.destroy$)).subscribe(
           (user: User) => {
             this.sessionService.logIn(user);
             this.router.navigate(['/posts']);

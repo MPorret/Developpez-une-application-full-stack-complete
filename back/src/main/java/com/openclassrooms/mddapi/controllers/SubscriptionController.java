@@ -37,16 +37,6 @@ public class SubscriptionController {
   @Autowired
     private SubscriptionService subscriptionService;
 
-    // @PostMapping
-    // public ResponseEntity<SubscriptionDTO> createSubscription(@RequestBody SubscriptionDTO subscriptionDTO) {
-    //     SubscriptionDTO createdSubscription = subscriptionService.createSubscription(
-    //         subscriptionDTO.getUserId(),
-    //         subscriptionDTO.getTopicId()
-    //     );
-
-    //     return ResponseEntity.ok(createdSubscription);
-    // }
-
     @PostMapping
     public ResponseEntity<SubscriptionDTO> createSubscription(@RequestBody Map<String, Long> requestBody) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -75,7 +65,6 @@ public class SubscriptionController {
 
         return ResponseEntity.ok(createdSubscription);
     }
-
 
     @GetMapping
     public ResponseEntity<List<SubscriptionDTO>> getUsersSubscriptions() {
@@ -124,5 +113,4 @@ public class SubscriptionController {
       response.put("message", "Subscription deleted successfully");
       return ResponseEntity.ok(response);
     }
-
 }

@@ -20,14 +20,6 @@ export class AppComponent implements OnInit {
   }
 
   public autoLog(): void {
-    // this.authService.me().subscribe(
-    //   (user: User) => {
-    //     this.sessionService.logIn(user);
-    //   },
-    //   (_) => {
-    //     this.sessionService.logOut();
-    //   }
-    // )
     const token = localStorage.getItem('token');
     if (token) {
       this.sessionService.isLogged = true;

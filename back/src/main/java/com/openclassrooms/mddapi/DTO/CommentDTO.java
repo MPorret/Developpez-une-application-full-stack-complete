@@ -2,12 +2,12 @@ package com.openclassrooms.mddapi.DTO;
 
 public class CommentDTO {
 
-  private Long id;
-  private String content;
-  private String userName;
-  private Long userId;
-  private String createdAt;
-  private String updatedAt;
+  private final Long id;
+  private final String content;
+  private final String userName;
+  private final Long userId;
+  private final String createdAt;
+  private final String updatedAt;
 
   public CommentDTO(Long id, String content, String userName, Long userId, String createdAt, String updatedAt) {
     this.id = id;
@@ -43,5 +43,4 @@ public class CommentDTO {
   public String getUpdatedAt() {
     return this.updatedAt;
   }
-
 }

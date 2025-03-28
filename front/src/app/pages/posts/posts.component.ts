@@ -1,9 +1,10 @@
-// posts-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/services/posts/posts.service';
 import { Post } from 'src/app/models/post.model';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { User } from 'src/app/interfaces/user.interface';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-posts',
@@ -15,11 +16,13 @@ export class PostsComponent implements OnInit {
   posts: Post[] = [];
   currentUserId: number = 0;
   sortOrder: boolean = true;
+  private destroy$ = new Subject<void>();
+
 
   constructor(private postService: PostService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.me().subscribe(
+    this.authService.me().pipe(takeUntil(this.destroy$)).subscribe(
       (user: User) => {
         this.currentUserId = user.id;
         this.loadPosts();
@@ -30,8 +33,13 @@ export class PostsComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   loadPosts(): void {
-    this.postService.getPostsByUserId(this.currentUserId).subscribe(
+    this.postService.getPostsByUserId(this.currentUserId).pipe(takeUntil(this.destroy$)).subscribe(
       (data: Post[]) => {
         this.posts = data;
         this.sortPosts();

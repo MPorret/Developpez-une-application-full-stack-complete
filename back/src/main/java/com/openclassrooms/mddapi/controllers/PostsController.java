@@ -47,12 +47,6 @@ public class PostsController {
     return ResponseEntity.ok(createdPost);
   }
 
-  // @GetMapping("/{postId}")
-  // public ResponseEntity<PostDTO> getPostById(@PathVariable Long postId) {
-  //   PostDTO postDTO = postService.getPostById(postId);
-  //   return ResponseEntity.ok(postDTO);
-  // }
-
   @GetMapping("/{postId}")
   public ResponseEntity<?> getPostById(@PathVariable Long postId) {
       PostDTO postDTO = postService.getPostById(postId);
@@ -68,17 +62,6 @@ public class PostsController {
       return ResponseEntity.ok(postMap);
   }
 
-  // @GetMapping("/{postId}/comments")
-  // public List<CommentDTO> getCommentsByPostId(@PathVariable Long postId) {
-  //   return postService.getCommentsByPostId(postId);
-  // }
-
-  // @PostMapping("/{postId}/comments")
-  // public ResponseEntity<CommentDTO> createComment(@PathVariable Long postId, @RequestBody CommentDTO commentDTO) {
-  //   CommentDTO createdComment = postService.createComment(postId, commentDTO);
-  //   return ResponseEntity.ok(createdComment);
-  // }
-
   @PostMapping("/{postId}/comments")
   public ResponseEntity<CommentDTO> createComment(
           @PathVariable Long postId,
@@ -91,7 +74,8 @@ public class PostsController {
           return ResponseEntity.status(401).build();
       }
 
-      String email = authentication.getName(); // Récupérer l'email de l'utilisateur connecté
+      // Récupérer l'email de l'utilisateur connecté
+      String email = authentication.getName();
 
       // Trouver l'utilisateur en base
       Optional<DBUser> userOpt = dbUserRepository.findByEmail(email);
@@ -100,7 +84,9 @@ public class PostsController {
       }
 
       DBUser user = userOpt.get();
-      Long userId = user.getId(); // Récupération de l'ID utilisateur
+
+      // Récupération de l'ID utilisateur
+      Long userId = user.getId();
 
       // Récupération du contenu du commentaire
       String content = requestBody.get("content");

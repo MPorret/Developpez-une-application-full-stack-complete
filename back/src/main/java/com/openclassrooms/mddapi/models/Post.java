@@ -47,7 +47,6 @@ public class Post {
   @Column(name = "updated_at")
   private LocalDateTime updatedAt;
 
-
   // Getters
 
   public Long getId() {
@@ -111,5 +110,4 @@ public class Post {
   public void setComments(List<Comment> comments) {
     this.comments = comments;
   }
-
 }

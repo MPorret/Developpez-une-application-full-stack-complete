@@ -3,6 +3,8 @@ import { Topic } from 'src/app/models/topic.model';
 import { TopicsService } from 'src/app/services/topics/topics.service';
 import { SubscriptionService } from 'src/app/services/subscriptions/subscriptions.service';
 import { Subscription } from 'src/app/models/subscription.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-topics',
   templateUrl: './topics.component.html',
@@ -12,6 +14,7 @@ export class TopicsComponent implements OnInit {
 
   topics: Topic[] = [];
   userSubscriptions: Subscription[] = [];
+  private destroy$ = new Subject<void>();
 
   constructor(
     private topicsService: TopicsService,
@@ -20,7 +23,7 @@ export class TopicsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.topicsService.getAllTopics().subscribe(
+    this.topicsService.getAllTopics().pipe(takeUntil(this.destroy$)).subscribe(
       (data: Topic[]) => {
         this.topics = data;
       },
@@ -29,7 +32,7 @@ export class TopicsComponent implements OnInit {
       }
     );
 
-    this.subscriptionService.getUsersSubscriptions().subscribe(
+    this.subscriptionService.getUsersSubscriptions().pipe(takeUntil(this.destroy$)).subscribe(
       (subscriptions: Subscription[]) => {
         this.userSubscriptions = subscriptions;
       },
@@ -39,13 +42,17 @@ export class TopicsComponent implements OnInit {
     );
   }
 
-  // Méthode pour vérifier si l'utilisateur est déjà abonné
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   isSubscribed(topicId: number): boolean {
     return this.userSubscriptions.some(sub => sub.topicId === topicId);
   }
 
   subscribeToTopic(topicId: number): void {
-    this.subscriptionService.createSubscription(topicId).subscribe(
+    this.subscriptionService.createSubscription(topicId).pipe(takeUntil(this.destroy$)).subscribe(
       (newSubscription: Subscription) => {
         this.userSubscriptions.push(newSubscription);
         this.cdr.markForCheck();
@@ -57,7 +64,7 @@ export class TopicsComponent implements OnInit {
   }
 
   unsubscribeFromTopic(topicId: number): void {
-    this.subscriptionService.deleteSubscription(topicId).subscribe(
+    this.subscriptionService.deleteSubscription(topicId).pipe(takeUntil(this.destroy$)).subscribe(
       () => {
         this.userSubscriptions = this.userSubscriptions.filter(sub => sub.topicId !== topicId);
         this.cdr.markForCheck();

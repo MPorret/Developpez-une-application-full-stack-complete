@@ -1,4 +1,3 @@
-// posts-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/services/posts/posts.service';
 import { Post } from 'src/app/models/post.model';
@@ -7,6 +6,8 @@ import { User } from 'src/app/interfaces/user.interface';
 import { DEFAULT_POST } from 'src/app/models/post.model';
 import { ActivatedRoute } from '@angular/router';
 import { CommentService } from 'src/app/services/comments/comments.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-posts',
@@ -18,18 +19,19 @@ export class PostDetailsComponent implements OnInit {
   post: Post = { ...DEFAULT_POST };
   currentUserId: number = 0;
   postId: number = 0;
-  newCommentContent: string = ''; // Variable pour stocker le contenu du commentaire
+  newCommentContent: string = '';
+  private destroy$ = new Subject<void>();
 
   constructor(
     private postService: PostService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private commentService: CommentService // Injection du service de commentaire
+    private commentService: CommentService
   ) {}
 
   ngOnInit(): void {
     // Récupérer l'ID du post depuis l'URL
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const id = params.get('id');
       if (id) {
         this.postId = +id; // Convertir en nombre
@@ -38,7 +40,7 @@ export class PostDetailsComponent implements OnInit {
     });
 
     // Récupérer l'utilisateur connecté
-    this.authService.me().subscribe(
+    this.authService.me().pipe(takeUntil(this.destroy$)).subscribe(
       (user: User) => {
         this.currentUserId = user.id;
       },
@@ -48,10 +50,15 @@ export class PostDetailsComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   loadPostDetails(): void {
     if (!this.postId) return;
 
-    this.postService.getPostById(this.postId).subscribe(
+    this.postService.getPostById(this.postId).pipe(takeUntil(this.destroy$)).subscribe(
       (data: Post) => {
         this.post = data;
       },
@@ -65,7 +72,7 @@ export class PostDetailsComponent implements OnInit {
   submitComment(): void {
     if (this.newCommentContent.trim()) {
       // Appel du service pour créer un commentaire
-      this.commentService.createComment(this.postId, this.newCommentContent).subscribe(
+      this.commentService.createComment(this.postId, this.newCommentContent).pipe(takeUntil(this.destroy$)).subscribe(
         (response) => {
           // Ajouter le commentaire à la liste locale après la création
           this.post.comments.push(response);

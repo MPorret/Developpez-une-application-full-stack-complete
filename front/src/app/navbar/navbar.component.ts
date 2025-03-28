@@ -31,5 +31,4 @@ export class NavbarComponent implements OnInit {
   closeSidenav() {
     this.sidenav.close();
   }
-
 }

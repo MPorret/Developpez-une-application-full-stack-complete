@@ -48,5 +48,4 @@ public class SubscriptionService {
 
     subscriptionRepository.delete(subscription);
   }
-
 }

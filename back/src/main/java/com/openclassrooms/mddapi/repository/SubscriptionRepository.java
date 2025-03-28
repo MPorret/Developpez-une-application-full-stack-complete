@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.openclassrooms.mddapi.models.Subscription;
-// import com.openclassrooms.mddapi.models.Topic;
 
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
   public List<Subscription> findByUserId(Long userId);

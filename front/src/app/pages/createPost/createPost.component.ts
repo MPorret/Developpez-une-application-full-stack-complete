@@ -69,20 +69,20 @@ export class CreatePostComponent implements OnInit {
 
   createPost(): void {
     if (this.postForm.invalid) {
-      return;  // Ne rien faire si le formulaire est invalide
+      return;
     }
 
     const postData: Post = {
-      id: 0,  // L'ID sera généré côté backend
+      id: 0,
       title: this.postForm.value.title,
       content: this.postForm.value.content,
       userId: this.currentUserId,
-      authorName: '',  // Tu peux récupérer le nom de l'auteur ici si nécessaire
+      authorName: '',
       topicId: this.postForm.value.topicId,
       comments: [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      topicName: ''  // Tu peux récupérer le nom du thème ici si nécessaire
+      topicName: ''
     };
 
     this.postService.createPost(postData)
@@ -91,13 +91,9 @@ export class CreatePostComponent implements OnInit {
       (newPost) => {
         // Réinitialiser le formulaire après la soumission
         this.postForm.reset();
-
-        // Optionnel : afficher un message de succès
         this.successMessage = 'Post créé avec succès !';
-
-        // Vous pouvez ajouter un délai avant de cacher ce message, par exemple 3 secondes :
         setTimeout(() => {
-          this.successMessage = '';  // Cacher le message après 3 secondes
+          this.successMessage = '';
         }, 3000);
       },
       (error) => {

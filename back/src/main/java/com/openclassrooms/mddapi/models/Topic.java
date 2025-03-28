@@ -27,5 +27,4 @@ public class Topic {
   public String getDescription() {
     return this.description;
   }
-
 }

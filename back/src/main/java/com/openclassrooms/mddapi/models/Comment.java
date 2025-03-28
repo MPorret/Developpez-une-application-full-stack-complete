@@ -16,7 +16,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Table(name="comments")
 public class Comment {
 
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -85,5 +84,4 @@ public class Comment {
   public void setUpdatedAt(LocalDateTime updatedAt) {
     this.updatedAt = updatedAt;
   }
-
 }

@@ -171,36 +171,6 @@ public class PostService {
 
 // ------------------------ CREATE COMMENT ---------------------------
 
-
-  // public CommentDTO createComment(Long postId, CommentDTO commentDTO) {
-
-  //   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-  //   // Vérifier si le post existe
-  //   if (!postRepository.existsById(postId)) {
-  //     throw new RuntimeException("Post not found");
-  //   }
-
-  //   Comment comment = new Comment();
-  //   comment.setContent(commentDTO.getContent());
-  //   comment.setUserId(commentDTO.getUserId());
-  //   comment.setPostId(postId);
-
-  //   Comment savedComment = commentRepository.save(comment);
-
-  //   DBUser dbUser = dbUserRepository.findById(savedComment.getUserId())
-  //                                   .orElseThrow(() -> new RuntimeException("User not found"));
-
-  //   return new CommentDTO(
-  //       savedComment.getId(),
-  //       savedComment.getContent(),
-  //       dbUser.getUsername(),
-  //       savedComment.getUserId(),
-  //       savedComment.getCreatedAt().format(formatter),
-  //       savedComment.getUpdatedAt().format(formatter)
-  //   );
-  // }
-
   public CommentDTO createComment(Long postId, String content, Long userId) {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -234,11 +204,9 @@ public class PostService {
     );
   }
 
-
   public String getTopicNameById(Long topicId) {
     return topicRepository.findById(topicId)
         .map(Topic::getName)
         .orElse("Unknown Topic");
   }
-
 }

@@ -48,5 +48,4 @@ public class JWTService {
     // Génétration et encodage du token selon les paramètres définis
     return this.jwtEncoder.encode(jwtEncoderParameters).getTokenValue();
   }
-
 }
