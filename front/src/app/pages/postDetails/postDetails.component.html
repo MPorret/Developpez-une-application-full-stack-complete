@@ -1,0 +1,80 @@
+<div class="flex flex-row pt-4">
+  <i
+    class="hidden desktop:block fa-solid fa-arrow-left fa-2xl pt-8 pl-8"
+    style="color: #000000;"
+    [routerLink]="['/posts']"
+  >
+  </i>
+  <div
+    *ngIf="post"
+    class="desktop:ml-6 desktop:mr-10 w-full"
+  >
+    <div class="flex flex-row gap-4">
+      <i
+        class="block desktop:hidden fa-solid fa-arrow-left fa-2xl pt-8 pl-4"
+        style="color: #000000;"
+        [routerLink]="['/posts']"
+      >
+      </i>
+      <p class="self-center text-lg font-bold text-3xl font-inter p-4">
+        {{ post.title }}
+      </p>
+    </div>
+
+  <div class="flex flex-row justify-between desktop:justify-start gap-10 p-4 font-inter text-2xl">
+    <p>{{ post.updatedAt }}</p>
+    <p>{{ post.authorName }}</p>
+    <p class="hidden desktop:block">{{ post.topicName }}</p>
+  </div>
+
+  <p class="block desktop:hidden p-4 font-inter text-2xl">{{ post.topicName }}</p>
+
+  <p class="font-inter text-2xl p-4 text-justify ">
+    {{ post.content }}
+  </p>
+
+  <hr class="bg-black border-black m-4"/>
+
+  <p class="font-inter text-2xl p-4">
+    Commentaires
+  </p>
+
+
+  <div class="desktop:ml-12 w-full desktop:pr-12 flex flex-col gap-8">
+    <div class="grid grid-cols-[minmax(0,_1fr)_43px] w-full gap-4 items-center">
+      <div class="flex flex-col gap-4 col-span-3 desktop:col-span-1">
+        <div
+          *ngFor="let comment of post.comments"
+          class="flex flex-col desktop:flex-row items-start gap-2 desktop:gap-8"
+        >
+          <p class="font-inter text-2xl w-full desktop:w-[4em] text-left desktop:text-right">
+            {{ comment.userName }}
+          </p>
+          <div class="w-full bg-light-grey rounded-lg min-h-[100px] p-4">
+            <p class="font-inter text-2xl">
+              {{ comment.content }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-[minmax(0,_1fr)_43px] w-full gap-4 items-center mb-12">
+      <textarea
+        [(ngModel)]="newCommentContent"
+        class="w-full text-2xl rounded-lg border border-black p-4 min-h-[100px] col-start-1"
+        rows="4"
+        placeholder="Écrivez votre commentaire..."
+      ></textarea>
+
+      <button
+        (click)="submitComment()"
+        class="col-start-2"
+      >
+        <i class="fa-regular fa-paper-plane fa-3x" style="color: #7763C5;"></i>
+      </button>
+    </div>
+
+  </div>
+
+</div>

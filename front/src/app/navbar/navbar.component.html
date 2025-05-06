@@ -1,0 +1,80 @@
+<mat-sidenav-container class="h-full">
+  <!-- Sidebar -->
+  <mat-sidenav #sidenav mode="over" position="end" class="w-64 bg-white">
+    <div class="flex flex-col justify-between h-full p-4 items-end">
+      <div class="p-4 flex flex-col gap-4 w-full items-end">
+        <a
+          class="text-md text-red font-bold cursor-pointer"
+          (click)="logout(); sidenav.close()"
+        >
+          Se déconnecter
+        </a>
+        <a
+          class="text-2xl font-thin"
+          routerLink="/posts"
+          routerLinkActive="text-purple"
+          (click)="sidenav.close()"
+        >
+          Articles
+        </a>
+        <a
+          class="text-2xl font-thin"
+          routerLink="/topics"
+          routerLinkActive="text-purple"
+          (click)="sidenav.close()"
+        >
+          Thèmes
+        </a>
+      </div>
+      <a
+        class="w-[48px] h-[48px] rounded-full bg-dark-grey flex items-center justify-center"
+        routerLink="/user/details"
+        (click)="sidenav.close()"
+      >
+        <i class="fa-regular fa-user fa-2xl" style="color: #6D6D6D;"></i>
+      </a>
+    </div>
+  </mat-sidenav>
+
+  <!-- Navbar -->
+  <div
+    class="w-full h-[94px] flex flex-row justify-between items-center px-8 border-b-[1px] border-solid border-black bg-white sticky top-0 z-50"
+  >
+    <!-- Logo -->
+    <a
+      routerLink="/posts"
+    >
+      <img src="assets/logo_p6.png" alt="logo" class="w-[140px] h-[81px]" />
+    </a>
+
+    <!-- burger button -->
+    <button mat-iconn-button class="md:hidden" (click)="sidenav.open()">
+      <mat-icon class="burger-button">menu</mat-icon>
+    </button>
+
+    <!-- liens desktop -->
+    <div
+      *ngIf="!['/login', '/register'].includes(router.url) || !router"
+      class="hidden desktop:flex justify-between items-center gap-4"
+    >
+      <a class="text-md text-red font-bold cursor-pointer" (click)="logout()">
+        Se déconnecter
+      </a>
+      <a class="text-2xl font-thin" routerLink="/posts" routerLinkActive="text-purple">
+        Articles
+      </a>
+      <a class="text-2xl font-thin" routerLink="/topics" routerLinkActive="text-purple">
+        Thèmes
+      </a>
+      <a
+        class="w-[48px] h-[48px] rounded-full bg-dark-grey flex items-center justify-center"
+        routerLink="/user/details"
+      >
+        <i class="fa-regular fa-user fa-2xl" style="color: #6D6D6D;"></i>
+      </a>
+    </div>
+  </div>
+  <div class="p-2">
+    <router-outlet></router-outlet>
+  </div>
+</mat-sidenav-container>

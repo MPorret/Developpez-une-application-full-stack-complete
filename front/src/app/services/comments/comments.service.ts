@@ -1,0 +1,23 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CommentService {
+
+  private apiUrl = 'api/posts';
+
+  constructor(private http: HttpClient) {}
+
+  // Méthode pour créer un commentaire
+  createComment(postId: number, commentContent: string): Observable<any> {
+    const comment = {
+      content: commentContent
+    };
+
+    return this.http.post<any>(`${this.apiUrl}/${postId}/comments`, comment);
+  }
+}
