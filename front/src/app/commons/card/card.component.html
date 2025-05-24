@@ -1,0 +1,11 @@
+<article>
+    <h2>{{data.name}}</h2>
+    @if(data.description.length > 255){
+        <p>{{data.description.substring(0, 255)}}...</p>
+    } @else {
+        <p>{{data.description}}</p>
+    }
+    @if(button){
+        <button mat-flat-button>S'abonner</button>
+    }
+</article>

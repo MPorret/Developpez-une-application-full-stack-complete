@@ -1,0 +1,33 @@
+.header {
+    box-shadow: 0 0 5px rgb(205, 205, 205);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0 20px;
+
+    img {
+        height: 100%;
+    }
+
+    .menu {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+        height: 100%;
+
+        &.active-link {
+            color: rgb(117, 80, 236);
+            
+            & > img {
+                border-radius: 50%;
+                outline: 3px solid rgb(117, 80, 236);
+            }
+        }
+    }
+}
