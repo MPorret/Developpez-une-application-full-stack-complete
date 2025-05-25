@@ -5,7 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class TopicDTO {
+public class RegisterDTO {
     private String name;
-    private String description;
+    private String email;
+    private String password;
 }

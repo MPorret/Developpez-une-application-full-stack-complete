@@ -1,4 +1,4 @@
-package com.openclassrooms.mddapi.respository;
+package com.openclassrooms.mddapi.repository;
 
 import com.openclassrooms.mddapi.model.Topic;
 import org.springframework.data.jpa.repository.JpaRepository;

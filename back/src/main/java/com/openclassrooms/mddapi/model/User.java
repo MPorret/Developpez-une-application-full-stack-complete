@@ -1,9 +1,7 @@
 package com.openclassrooms.mddapi.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,18 +9,22 @@ import java.util.Date;
 
 @Entity
 @Getter
-@Table(name = "THEMES")
+@Setter
+@Table(name = "USERS")
 @RequiredArgsConstructor
-public class Topic {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Column(nullable = false)
-    private String description;
+    private String password;
 
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
