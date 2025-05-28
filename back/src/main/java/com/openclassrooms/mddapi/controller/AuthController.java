@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.RegisterDTO;
+import com.openclassrooms.mddapi.dto.TokenDTO;
 import com.openclassrooms.mddapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody RegisterDTO registerDTO){
         try {
             String token = userService.registerUser(registerDTO);
-            return ResponseEntity.ok().body(token);
+            return ResponseEntity.ok().body(new TokenDTO(token));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
         }

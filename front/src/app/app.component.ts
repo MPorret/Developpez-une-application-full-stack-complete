@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from './commons/header/header.component';
 
 @Component({
     selector: 'app-root',
@@ -8,5 +7,4 @@ import { HeaderComponent } from './commons/header/header.component';
     standalone: false
 })
 export class AppComponent {
-  title = 'front';
 }

@@ -1,5 +1,3 @@
-@use '@angular/material' as mat;
-
 article {
     background-color: rgb(245, 245, 245);
     border-radius: 10px;
@@ -11,9 +9,4 @@ article {
     & p, h2 {
         width: 100%;
     }
-
-    @include mat.button-overrides((
-        container-color:rgb(119, 99, 197),
-        label-text-color: white,
-    ));
 }

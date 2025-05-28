@@ -1,0 +1,15 @@
+mat-icon{
+    position: absolute;
+    left: 70px;
+    font-size: 32px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    mat-icon{
+        left: 20px;
+    }
+}

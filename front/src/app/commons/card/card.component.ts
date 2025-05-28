@@ -1,16 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { Topic } from 'src/app/interface/topic.interface';
-import {MatButtonModule} from '@angular/material/button';
+import { SubscribeButtonComponent } from '../subscribe-button/subscribe-button.component';
 
 @Component({
   selector: 'app-card',
-  imports: [MatButtonModule],
   templateUrl: './card.component.html',
-  styleUrl: './card.component.scss'
+  styleUrl: './card.component.scss',
+  imports: [SubscribeButtonComponent]
 })
 export class CardComponent {
   @Input()
   data: Record<string, string> | Topic = {};
   @Input()
-  button: boolean = false;  
+  buttonText: string | undefined = undefined;
 }

@@ -1,0 +1,8 @@
+@use '@angular/material' as mat;
+
+button {
+    @include mat.button-overrides((
+        container-color:rgb(119, 99, 197),
+        label-text-color: white,
+    ));
+}
