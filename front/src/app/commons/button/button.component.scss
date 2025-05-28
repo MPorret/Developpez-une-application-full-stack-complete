@@ -1,0 +1,7 @@
+@use '@angular/material' as mat;
+
+button {
+    @include mat.button-overrides((
+        outline-color: rgb(0, 0, 0),
+    ));
+}

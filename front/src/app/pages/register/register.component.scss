@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+
+div {
+    max-width: 500px;
+    height: 600px;
+    margin:auto;
+
+    mat-card-content {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin: 10px 20px;
+    }
+    
+    h2 {
+        font-size: 32px;
+        margin-bottom: 40px;
+    }
+}

@@ -1,0 +1,25 @@
+<mat-sidenav-container class="container">
+    <mat-sidenav #sidenav [mode]="'over'" position="end">
+        <div class="navbar">
+            <app-menu />
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div class="header">
+            <img src="../../../assets/logo_p6.png" />
+            @if ($isLogged() | async) {
+                <app-menu class="menu" />
+                @if(isMobile){
+                    <button mat-icon-button (click)="open()" class="burger-menu">
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                }
+            }
+        </div>
+        <main>
+            <router-outlet>
+            </router-outlet>  
+        </main>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+    

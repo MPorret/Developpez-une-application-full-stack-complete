@@ -7,11 +7,11 @@ import { Topic } from '../interface/topic.interface';
   providedIn: 'root'
 })
 export class TopicService {
-  private pathService = 'topic/';
+  private pathService = 'api/topic/';
 
   constructor(private httpClient: HttpClient) { }
 
   public all(): Observable<Topic[]> {
-    return this.httpClient.get<Topic[]>("/api/" + this.pathService);
+    return this.httpClient.get<Topic[]>(this.pathService);
   }
 }

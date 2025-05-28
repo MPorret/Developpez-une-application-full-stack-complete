@@ -5,7 +5,7 @@
     } @else {
         <p>{{data.description}}</p>
     }
-    @if(button){
-        <button mat-flat-button>S'abonner</button>
+    @if(buttonText){
+        <app-subscribe-button>{{buttonText}}</app-subscribe-button>
     }
 </article>
