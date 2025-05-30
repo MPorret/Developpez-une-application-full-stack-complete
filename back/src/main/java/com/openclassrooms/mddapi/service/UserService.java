@@ -1,7 +1,9 @@
 package com.openclassrooms.mddapi.service;
 
 import ch.qos.logback.core.util.StringUtil;
+import com.openclassrooms.mddapi.dto.LoginDTO;
 import com.openclassrooms.mddapi.dto.RegisterDTO;
+import com.openclassrooms.mddapi.dto.TokenDTO;
 import com.openclassrooms.mddapi.mapper.UserMapper;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
@@ -55,6 +57,24 @@ public class UserService {
                 registerDTO.getEmail(),
                 registerDTO.getPassword()
         );
+    }
+
+    public String loginUser(LoginDTO user) {
+        User foundUser;
+
+        if (user.getUsername().contains("@")) {
+            foundUser = userRepository.findByEmail(user.getUsername())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        } else {
+            foundUser = userRepository.findByName(user.getUsername())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        }
+
+        if (!passwordEncoder.matches(user.getPassword(), foundUser.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Password incorrect");
+        }
+
+        return authUser(foundUser.getEmail(), user.getPassword());
     }
 
     public String authUser(String email, String password) {
