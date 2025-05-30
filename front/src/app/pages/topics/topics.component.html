@@ -1,5 +1,5 @@
 <div>
     @for(topic of (topics$ | async); track topic.id) {
-        <app-card [data]="topic" [buttonText] />
+        <app-card [data]="topic" [buttonText]="buttonText" />
     }
 </div>

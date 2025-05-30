@@ -9,10 +9,14 @@ import { ButtonComponent } from 'src/app/commons/button/button.component';
   imports: [ButtonComponent]
 })
 export class HomeComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   public goToRegister(){
     this.router.navigate(["/register"])
   }
 
+  public goToLogin(){
+    this.router.navigate(["/login"])
+  }
 }
