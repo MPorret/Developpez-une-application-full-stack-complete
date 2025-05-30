@@ -11,5 +11,5 @@ public class TopicsDTO {
     private Integer id;
     private String name;
     private String description;
-    private Boolean isSubscribe;
+    private Boolean isSubscribed;
 }

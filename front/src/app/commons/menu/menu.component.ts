@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SessionService } from 'src/app/services/session.service';
@@ -17,5 +17,9 @@ export class MenuComponent {
   
     public $isLogged(): Observable<boolean> {
       return this.sessionService.$isLogged();
+    }
+
+    public logout(): void {
+      localStorage.removeItem('token');
     }
 }

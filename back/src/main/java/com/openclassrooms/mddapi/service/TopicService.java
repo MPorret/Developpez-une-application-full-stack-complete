@@ -37,7 +37,7 @@ public class TopicService {
             Topic topic = topicRepository.findById(topicDTO.getId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Topic not found"));
             Optional<Subscription> subscription = subscriptionRepository.findByUserAndTopic(user, topic);
-            topicDTO.setIsSubscribe(subscription.isPresent());
+            topicDTO.setIsSubscribed(subscription.isPresent());
         }
 
         return topics;

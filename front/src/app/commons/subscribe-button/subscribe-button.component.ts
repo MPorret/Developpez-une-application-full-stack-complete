@@ -16,5 +16,6 @@ export class SubscribeButtonComponent {
   @Input()
   onClick: () => void = () => {};
 
-  constructor(private router: Router){}
+  constructor(private router: Router){
+  }
 }
