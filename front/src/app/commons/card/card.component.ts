@@ -13,4 +13,8 @@ export class CardComponent {
   data: Record<string, string> | Topic = {};
   @Input()
   buttonText: string | undefined = undefined;
+  @Input()
+  disabled: boolean = false;
+  @Input()
+  onClick: () => void = () => {};
 }

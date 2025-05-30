@@ -31,10 +31,10 @@ public class TopicController {
         return ResponseEntity.ok().body("Topic created");
     }
 
-    @PostMapping("/subscribe")
-    public ResponseEntity<?> subscribeTopic (Authentication authentication, @RequestBody SubscriptionDTO subscriptionDTO) {
+    @PostMapping("/{id}/subscribe")
+    public ResponseEntity<?> subscribeTopic (Authentication authentication, @PathVariable Integer id) {
         try {
-            List<TopicsDTO> topicsUpdated = topicService.subscribeTopic(authentication, subscriptionDTO.id());
+            List<TopicsDTO> topicsUpdated = topicService.subscribeTopic(authentication, id);
             return ResponseEntity.ok().body(topicsUpdated);
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getReason());

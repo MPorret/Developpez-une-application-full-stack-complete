@@ -1,7 +1,6 @@
 <nav class="menu">
     <ul>
-        <li><a routerLink="/logout"
-        routerLinkActive="active-link" class="logout">Se déconnecter</a></li>
+        <li><a (click)="logout()" routerLink="/" class="logout">Se déconnecter</a></li>
         <li><a routerLink="/articles"
         routerLinkActive="active-link">Articles</a></li>
         <li><a routerLink="/topics"

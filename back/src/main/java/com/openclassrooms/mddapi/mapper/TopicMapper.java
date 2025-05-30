@@ -12,9 +12,9 @@ import java.util.List;
 @Component
 @Mapper(componentModel = "spring")
 public interface TopicMapper {
-    @Mapping(target = "isSubscribe", ignore = true)
+    @Mapping(target = "isSubscribed", ignore = true)
     TopicsDTO toDto(Topic topic);
-    @Mapping(target = "isSubscribe", ignore = true)
+    @Mapping(target = "isSubscribed", ignore = true)
     List<TopicsDTO> toDtoList(List<Topic> listTopic);
 
     @Mapping(target = "id", ignore = true)

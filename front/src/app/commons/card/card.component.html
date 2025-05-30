@@ -6,6 +6,6 @@
         <p>{{data.description}}</p>
     }
     @if(buttonText){
-        <app-subscribe-button>{{buttonText}}</app-subscribe-button>
+        <app-subscribe-button [disabled]="disabled" (click)="onClick()">{{buttonText}}</app-subscribe-button>
     }
 </article>
