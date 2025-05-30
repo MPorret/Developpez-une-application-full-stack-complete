@@ -1,10 +1,11 @@
 package com.openclassrooms.mddapi.service;
 
 import ch.qos.logback.core.util.StringUtil;
-import com.openclassrooms.mddapi.dto.LoginDTO;
-import com.openclassrooms.mddapi.dto.RegisterDTO;
-import com.openclassrooms.mddapi.dto.TokenDTO;
+import com.openclassrooms.mddapi.dto.*;
+import com.openclassrooms.mddapi.mapper.TopicMapper;
 import com.openclassrooms.mddapi.mapper.UserMapper;
+import com.openclassrooms.mddapi.model.Subscription;
+import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +32,7 @@ public class UserService {
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserMapper mapper;
+    private final TopicService topicService;
 
     public String registerUser(RegisterDTO registerDTO) {
 
@@ -91,5 +95,17 @@ public class UserService {
 
     public String formatTokenResponse(Authentication authentication){
         return jwtService.generateToken(authentication);
+    }
+
+    public UserDTO findUser(Authentication authentication){
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        List<Topic> topics = topicService.findAllTopicsByUser(user);
+
+        UserDTO userDTO = mapper.toDto(user);
+        userDTO.setTopics(topics);
+
+        return userDTO;
     }
 }

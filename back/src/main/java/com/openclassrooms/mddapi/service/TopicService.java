@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,5 +55,14 @@ public class TopicService {
         subscriptionRepository.save(subscription);
 
         return findAllTopics(authentication);
+    }
+
+    public List<Topic> findAllTopicsByUser(User user){
+        List<Topic> topics = new ArrayList<Topic>();
+        List<Subscription> subscriptions = subscriptionRepository.findAllByUser(user);
+        for (Subscription subscription : subscriptions) {
+            topics.add(subscription.getTopic());
+        }
+        return topics;
     }
 }
