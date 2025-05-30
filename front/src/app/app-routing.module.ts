@@ -7,6 +7,7 @@ import { UnauthGuard } from './guards/unauth.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { LayoutwithheaderComponent } from './layouts/layoutwithheader/layoutwithheader.component';
 import { LayoutComponent } from './layouts/layout/layout.component';
+import { LoginComponent } from './pages/login/login.component';
 
 const routes: Routes = [
   { path: '', 
@@ -21,6 +22,13 @@ const routes: Routes = [
     component: LayoutwithheaderComponent,
     children: [
       { path: '', component: RegisterComponent }
+    ]
+  },
+  { path: 'login', 
+    canActivate: [UnauthGuard],
+    component: LayoutwithheaderComponent,
+    children: [
+      { path: '', component: LoginComponent }
     ]
   },
   { path: 'topics', 

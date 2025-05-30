@@ -40,6 +40,6 @@ public class AuthController {
     @GetMapping("/token")
     public ResponseEntity<?> validToken (Authentication authentication) {
         authentication.isAuthenticated();
-        return ResponseEntity.ok().body("Token valid");
+        return ResponseEntity.ok().body("");
     }
 }

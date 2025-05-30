@@ -1,9 +1,23 @@
-div {
+.home-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 
     img {
         max-width: 90%;
+    }
+
+    .buttons {
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
     }
 }
