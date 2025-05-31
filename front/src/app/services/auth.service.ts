@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginDTO, RegisterDTO, User } from '../interface/user.interface';
+import { LoginDTO, RegisterDTO } from '../interface/user.interface';
 import { Observable } from 'rxjs';
 import { SessionInformation } from '../interface/sessionInformation.interface';
 
