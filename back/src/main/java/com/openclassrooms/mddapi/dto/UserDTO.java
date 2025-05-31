@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserDTO {
     private Integer id;
+    private String token;
     private String name;
     private String email;
     private Date createdAt;

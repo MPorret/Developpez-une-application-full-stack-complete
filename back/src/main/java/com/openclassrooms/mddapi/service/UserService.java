@@ -108,4 +108,49 @@ public class UserService {
 
         return userDTO;
     }
+
+    public UserDTO updateUser(Authentication authentication, RegisterDTO registerDTO){
+        System.out.println(authentication.getName());
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        if (!StringUtils.hasLength(registerDTO.getEmail()) || !StringUtils.hasLength(registerDTO.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "email or username empty");
+        }
+
+        if (!user.getEmail().equals(registerDTO.getEmail())) {
+            if (userRepository.findByEmail(registerDTO.getEmail()).isPresent()){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"email already used");
+            }
+        }
+        user.setEmail(registerDTO.getEmail());
+
+        if (!user.getName().equals(registerDTO.getName())) {
+            if (userRepository.findByName(registerDTO.getName()).isPresent()){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"username already used");
+            }
+        }
+        user.setName(registerDTO.getName());
+
+        if (StringUtils.hasLength(registerDTO.getPassword())) {
+            String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()!?])(?=\\S+$).{8,255}$";
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher(registerDTO.getPassword());
+            if (!m.matches()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid password");
+            }
+            user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+        }
+
+        List<Topic> topics = topicService.findAllTopicsByUser(user);
+
+        Authentication newAuthentication = new UsernamePasswordAuthenticationToken(user.getEmail(), null, List.of());
+
+        User userUpdated = userRepository.save(user);
+        UserDTO userDTO = mapper.toDto(userUpdated);
+        userDTO.setTopics(topics);
+        userDTO.setToken(formatTokenResponse(newAuthentication));
+
+        return userDTO;
+    }
 }
