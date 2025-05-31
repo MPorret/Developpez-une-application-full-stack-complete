@@ -40,4 +40,14 @@ public class TopicController {
             return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
         }
     }
+
+    @PostMapping("/{id}/unsubscribe")
+    public ResponseEntity<?> unsubscribeTopic (Authentication authentication, @PathVariable Integer id) {
+        try {
+            List<TopicsDTO> subscriptionUpdated = topicService.unsubscribeTopic(authentication, id);
+            return ResponseEntity.ok().body(subscriptionUpdated);
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
+        }
+    }
 }

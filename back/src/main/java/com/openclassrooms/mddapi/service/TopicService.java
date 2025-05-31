@@ -57,6 +57,14 @@ public class TopicService {
         return findAllTopics(authentication);
     }
 
+    public List<TopicsDTO> unsubscribeTopic (Authentication authentication, Integer topicId) {
+        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Topic not found"));
+        Subscription subscription = subscriptionRepository.findByUserAndTopic(user, topic).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Subscription not found"));
+        subscriptionRepository.delete(subscription);
+        return mapper.toDtoList(findAllTopicsByUser(user));
+    }
+
     public List<Topic> findAllTopicsByUser(User user){
         List<Topic> topics = new ArrayList<Topic>();
         List<Subscription> subscriptions = subscriptionRepository.findAllByUser(user);
