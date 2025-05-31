@@ -1,0 +1,40 @@
+<div class="profile-container">
+    <div class="form">
+        <app-back-button />
+        <h2>Profil utilisateur</h2>
+        <form class="register-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+                    <mat-label>Nom d'utilisateur</mat-label>
+                    <input matInput placeholder="Username" formControlName="name" [value]="user?.name">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="Email" formControlName="email" [value]="user?.email">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Mot de passe</mat-label>
+                    <input matInput placeholder="Password" type="password" formControlName="password">
+                </mat-form-field>
+            </mat-card-content>
+            <app-subscribe-button type="submit" [disabled]="form.invalid">Sauvegarder</app-subscribe-button>
+            @if (onError) {
+                <span class="error">Une erreur s'est produite.</span>   
+            }
+            @if (onSuccess) {
+                <span class="success">Votre profil a été mis à jour.</span>
+            }
+        </form>
+    </div>
+    <mat-divider></mat-divider>
+    <h2>Abonnements</h2>
+    <div class="topics">
+        @for(topic of user?.topics; track topic.id) {
+            <app-card
+                [data]="topic"
+                buttonText="Se désabonner"
+                [onClick]="handleOnUnsubscribe(topic.id)"
+            />
+        }
+    </div>
+</div>

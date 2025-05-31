@@ -13,7 +13,6 @@ import { TopicService } from 'src/app/services/topic.service';
 })
 export class TopicsComponent {
   public topics$: Observable<Topic[]> = this.topicService.all();
-  public buttonText = "S'abonner";
 
   constructor(
     private topicService: TopicService
@@ -23,7 +22,6 @@ export class TopicsComponent {
     this.topicService.subscribe(topic.id).subscribe({
       next: (data) => {
         this.topics$ = of(data);
-        console.table(data);
       },
       error: (err) => {
         console.error('Subscription failed', err);

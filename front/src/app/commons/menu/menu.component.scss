@@ -2,6 +2,11 @@
     display: flex;
     gap: 20px;
     align-items: center;
+
+    a.active-link img {
+        border-radius: 50%;
+        outline: 3px solid rgb(117, 80, 236);
+    }
 }
 
 ul {
@@ -19,11 +24,6 @@ ul {
 
             &.active-link {
                 color: rgb(117, 80, 236);
-                
-                & > img {
-                    border-radius: 50%;
-                    outline: 3px solid rgb(117, 80, 236);
-                }
             }
 
             &.logout {

@@ -1,10 +1,13 @@
+import { Topic } from "./topic.interface";
+
 export interface User {
     id: number,
+    token: string,
     name: string,
     email: string,
-    password: string,
     created_at: Date,
-    updated_at: Date
+    updated_at: Date,
+    topics : Topic[],
 }
 
 export interface RegisterDTO {
