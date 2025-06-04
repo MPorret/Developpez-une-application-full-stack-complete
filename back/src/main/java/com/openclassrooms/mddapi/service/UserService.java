@@ -110,7 +110,6 @@ public class UserService {
     }
 
     public UserDTO updateUser(Authentication authentication, RegisterDTO registerDTO){
-        System.out.println(authentication.getName());
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 

@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.mapper;
 
+import com.openclassrooms.mddapi.dto.MinimalUserDTO;
 import com.openclassrooms.mddapi.dto.RegisterDTO;
 import com.openclassrooms.mddapi.dto.UserDTO;
 import com.openclassrooms.mddapi.model.User;
@@ -17,4 +18,6 @@ public interface UserMapper {
 
     @Mapping(target = "topics", ignore = true)
     UserDTO toDto(User user);
+
+    MinimalUserDTO toMinimalDto(User user);
 }
