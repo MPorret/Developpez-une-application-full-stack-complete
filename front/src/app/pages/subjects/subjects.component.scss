@@ -2,6 +2,13 @@ div.options {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+
+    .sort-button {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+    }
 }
 
 div.subjects-list {
@@ -29,5 +36,13 @@ div.subjects-list {
 @media screen and (max-width: 850px) {
     div.subjects-list {
         grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media screen and (max-width: 500px) {
+    div.options {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px
     }
 }
