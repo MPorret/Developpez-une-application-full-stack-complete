@@ -1,10 +1,13 @@
 <div>
     @for(topic of (topics$ | async); track topic.id) {
-        <app-card
-            [data]="topic"
-            [buttonText]="topic.isSubscribed ? 'Déjà abonné' : 'S\'abonner'"
-            [disabled]="topic.isSubscribed"
-            [onClick]="getOnSubscribeHandler(topic)"
-        />
+        <app-card>
+            <h2>{{topic.name}}</h2>
+            @if(topic.description.length > 255){
+                <p>{{topic.description.substring(0, 255)}}...</p>
+            } @else {
+                <p>{{topic.description}}</p>
+            }
+            <app-subscribe-button [disabled]="topic.isSubscribed" (click)="onSubscribe(topic)">{{topic.isSubscribed ? "Déjà abonné" : "S'abonner"}}</app-subscribe-button>
+        </app-card>
     }
 </div>

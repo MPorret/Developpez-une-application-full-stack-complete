@@ -1,7 +1,12 @@
 div {
-    grid-gap: 10px;
+    grid-gap: 20px 40px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+
+    & p, h2 {
+        width: 100%;
+        text-align: justify;
+    }
 }
 
 @media screen and (max-width: 850px) {

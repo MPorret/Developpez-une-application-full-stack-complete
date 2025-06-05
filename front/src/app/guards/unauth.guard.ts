@@ -16,7 +16,7 @@ export class UnauthGuard implements CanActivate {
     return this.sessionService.tokenIsValid().pipe(
       tap(isValid => {
         if (isValid) {
-          this.router.navigate(['topics']);
+          this.router.navigate(['articles']);
         }
       }),
       map(isValid => !isValid)

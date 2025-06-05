@@ -1,0 +1,23 @@
+@use '@angular/material' as mat;
+
+form.subject-form {
+    max-width: 500px;
+    margin:auto;
+
+    mat-card-content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 0 20px;
+    }
+ 
+    @include mat.form-field-overrides((
+        outline-color: rgb(117, 80, 236),
+        outline-width: 2px,
+    ));
+}
+
+mat-divider {
+    margin: 20px 50px;
+    color: black;
+}

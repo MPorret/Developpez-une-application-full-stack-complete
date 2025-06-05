@@ -9,6 +9,9 @@ import { LayoutwithheaderComponent } from './layouts/layoutwithheader/layoutwith
 import { LayoutComponent } from './layouts/layout/layout.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { SubjectsComponent } from './pages/subjects/subjects.component';
+import { CreateComponent } from './pages/subjects/create/create.component';
+import { DetailsComponent } from './pages/subjects/details/details.component';
 
 const routes: Routes = [
   { path: '', 
@@ -30,6 +33,15 @@ const routes: Routes = [
     component: LayoutwithheaderComponent,
     children: [
       { path: '', component: LoginComponent }
+    ]
+  },
+  { path: 'articles', 
+    canActivate: [AuthGuard],
+    component: LayoutwithheaderComponent,
+    children: [
+      { path: '', component: SubjectsComponent },
+      { path: 'create', component: CreateComponent },
+      { path: ':id', component: DetailsComponent }
     ]
   },
   { path: 'topics', 

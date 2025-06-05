@@ -18,7 +18,7 @@ public class SubjectController {
     public ResponseEntity<?> createSubject (@RequestBody SubjectDTO subjectDTO){
         try {
             subjectService.createSubject(subjectDTO);
-            return ResponseEntity.ok().body("Subject created");
+            return ResponseEntity.ok().body("");
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
         }

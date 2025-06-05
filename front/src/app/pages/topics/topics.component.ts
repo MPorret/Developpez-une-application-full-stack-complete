@@ -4,10 +4,11 @@ import { Observable, of } from 'rxjs';
 import { CardComponent } from 'src/app/commons/card/card.component';
 import { Topic } from 'src/app/interface/topic.interface';
 import { TopicService } from 'src/app/services/topic.service';
+import { SubscribeButtonComponent } from "../../commons/subscribe-button/subscribe-button.component";
 
 @Component({
   selector: 'app-topics',
-  imports: [CommonModule, CardComponent],
+  imports: [CommonModule, CardComponent, SubscribeButtonComponent],
   templateUrl: './topics.component.html',
   styleUrl: './topics.component.scss'
 })
@@ -27,9 +28,5 @@ export class TopicsComponent {
         console.error('Subscription failed', err);
       },
     });
-  }
-
-  getOnSubscribeHandler(topic: Topic): () => void {
-    return () => this.onSubscribe(topic);
   }
 }

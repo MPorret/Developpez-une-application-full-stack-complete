@@ -1,0 +1,31 @@
+<app-back-button />
+<h2>Créer un nouvel article</h2>
+<form class="subject-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <mat-form-field appearance="outline">
+            <mat-label>Thème</mat-label>
+            <mat-select placeholder="Selectionner un thème" formControlName="topic_id">
+                @for (topic of (topics$ | async); track topic.id) {
+                    <mat-option [value]="topic.id">{{ topic.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Titre de l'article</mat-label>
+            <input matInput placeholder="Titre de l'article" formControlName="title">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Contenu</mat-label>
+            <textarea matInput
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="3"
+            cdkAutosizeMaxRows="10"
+            placeholder="Content de l'article" formControlName="message"></textarea>
+        </mat-form-field>
+    </mat-card-content>
+    <app-subscribe-button type="submit" [disabled]="form.invalid">Créer</app-subscribe-button>
+    @if (onError) {
+        <span class="error">Une erreur s'est produite.</span>   
+    }
+</form>
