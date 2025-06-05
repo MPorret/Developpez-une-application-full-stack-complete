@@ -1,0 +1,13 @@
+<app-back-button />
+<div class="subject-page">
+    <div class="subject-details">
+        <h2>{{subject.name}}</h2>
+        <div class="subject-info">
+            <p>{{subject.created_at | date}}</p>
+            <p>{{subject.author.name}}</p>
+            <p>{{subject.topic.name}}</p>
+        </div>
+        <p>{{subject.description}}</p>
+        <mat-divider></mat-divider>
+    </div>
+</div>

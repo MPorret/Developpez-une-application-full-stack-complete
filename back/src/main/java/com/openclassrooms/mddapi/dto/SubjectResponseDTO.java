@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
 import jakarta.websocket.MessageHandler;
@@ -14,10 +15,14 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class SubjectResponseDTO {
     private Integer id;
+    @JsonProperty("name")
     private String title;
+    @JsonProperty("description")
     private String message;
     private MinimalUserDTO author;
     private Topic topic;
+    @JsonProperty("created_at")
     private Date createdAt;
+    @JsonProperty("updated_at")
     private Date updatedAt;
 }

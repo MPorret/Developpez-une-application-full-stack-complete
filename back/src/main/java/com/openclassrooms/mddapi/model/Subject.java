@@ -23,7 +23,7 @@ public class Subject {
     private String title;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, length = 2000)
     private String message;
 
     @ManyToOne

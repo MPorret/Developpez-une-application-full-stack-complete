@@ -5,8 +5,4 @@ article {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    & p, h2 {
-        width: 100%;
-    }
 }

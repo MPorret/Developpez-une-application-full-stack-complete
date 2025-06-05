@@ -1,0 +1,21 @@
+div.subject-page {
+    max-width: 700px;
+    margin:auto;
+
+    div.subject-details {
+        text-align: justify;
+
+        & > * {
+            margin-bottom: 20px;
+        }  
+
+        div.subject-info {
+            display: flex;
+
+            & > p {
+                margin-right: 20px;
+            }
+        }
+
+    }
+}

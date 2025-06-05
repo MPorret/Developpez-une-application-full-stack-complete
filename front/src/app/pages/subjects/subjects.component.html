@@ -1,0 +1,23 @@
+<div>
+    <div class="options">
+        <app-subscribe-button [onClick]="onClickCreate">
+            Créer un article
+        </app-subscribe-button>
+    </div>
+    <div class="subjects-list">
+        @for(subject of (subjects$ | async); track subject.id) {
+            <app-card (click)="onClick(subject.id)">
+                <h2>{{subject.name}}</h2>
+                <div class="subject-info">
+                    <p>Date : {{subject.created_at | date}}</p>
+                    <p>Par {{subject.author.name}}</p>
+                </div>
+                @if(subject.description.length > 255){
+                    <p>{{subject.description.substring(0, 255)}}...</p>
+                } @else {
+                    <p>{{subject.description}}</p>
+                }
+            </app-card>
+        }
+    </div>
+</div>

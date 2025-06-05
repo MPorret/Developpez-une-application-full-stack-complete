@@ -1,7 +1,7 @@
 <div class="profile-container">
     <div class="form">
         <app-back-button />
-        <h2>Profil utilisateur</h2>
+        <h1>Profil utilisateur</h1>
         <form class="register-form" [formGroup]="form" (ngSubmit)="onSubmit()">
             <mat-card-content>
                 <mat-form-field appearance="outline">
@@ -27,14 +27,18 @@
         </form>
     </div>
     <mat-divider></mat-divider>
-    <h2>Abonnements</h2>
+    <h1>Abonnements</h1>
     <div class="topics">
         @for(topic of user?.topics; track topic.id) {
-            <app-card
-                [data]="topic"
-                buttonText="Se désabonner"
-                [onClick]="handleOnUnsubscribe(topic.id)"
-            />
+            <app-card>
+                <h2>{{topic.name}}</h2>
+                @if(topic.description.length > 255){
+                    <p>{{topic.description.substring(0, 255)}}...</p>
+                } @else {
+                    <p>{{topic.description}}</p>
+                }
+                <app-subscribe-button [disabled]="topic.isSubscribed" (click)="onUnsubscribe(topic.id)">Se désabonner</app-subscribe-button>
+            </app-card>
         }
     </div>
 </div>
