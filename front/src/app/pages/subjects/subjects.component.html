@@ -3,9 +3,13 @@
         <app-subscribe-button [onClick]="onClickCreate">
             Créer un article
         </app-subscribe-button>
+        <div (click)="onSort()" class="sort-button">
+            <span>Trier par</span>
+            <mat-icon class="material-icons">{{sort}}</mat-icon>
+        </div>
     </div>
     <div class="subjects-list">
-        @for(subject of (subjects$ | async); track subject.id) {
+        @for(subject of subjects; track subject.id) {
             <app-card (click)="onClick(subject.id)">
                 <h2>{{subject.name}}</h2>
                 <div class="subject-info">

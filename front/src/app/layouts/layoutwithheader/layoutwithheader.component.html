@@ -10,9 +10,9 @@
             @if ($isLogged() | async) {
                 <app-menu class="menu" />
                 @if(isMobile){
-                    <button mat-icon-button (click)="open()" class="burger-menu">
+                    <div (click)="open()" class="burger-menu">
                         <mat-icon>menu</mat-icon>
-                    </button>
+                    </div>
                 }
             }
         </div>
