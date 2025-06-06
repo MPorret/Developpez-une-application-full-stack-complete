@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.controller;
 
+import com.openclassrooms.mddapi.dto.CommentDTO;
 import com.openclassrooms.mddapi.dto.SubjectDTO;
 import com.openclassrooms.mddapi.service.SubjectService;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +37,15 @@ public class SubjectController {
     @GetMapping("")
     public ResponseEntity<?> getAllSubscribedSubjects (Authentication authentication) {
         return ResponseEntity.ok().body(subjectService.findSubscribedSubjects(authentication));
+    }
+
+    @PostMapping("/comment")
+    public ResponseEntity<?> addComment (@RequestBody CommentDTO commentDTO){
+        try {
+            subjectService.addComment(commentDTO);
+            return ResponseEntity.ok().body("");
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
+        }
     }
 }
