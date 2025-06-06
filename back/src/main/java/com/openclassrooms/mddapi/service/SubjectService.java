@@ -1,6 +1,10 @@
 package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.dto.*;
+import com.openclassrooms.mddapi.exception.SubjectNotFoundException;
+import com.openclassrooms.mddapi.exception.TopicNotFoundException;
+import com.openclassrooms.mddapi.exception.UserNameNotFoundException;
+import com.openclassrooms.mddapi.exception.UserNotFoundException;
 import com.openclassrooms.mddapi.mapper.CommentMapper;
 import com.openclassrooms.mddapi.mapper.SubjectMapper;
 import com.openclassrooms.mddapi.model.Comment;
@@ -12,10 +16,8 @@ import com.openclassrooms.mddapi.repository.SubjectRepository;
 import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
@@ -32,15 +34,15 @@ public class SubjectService {
     private final TopicService topicService;
 
     public void createSubject (SubjectDTO subjectDTO){
-        User user = userRepository.findById(subjectDTO.getAuthor_id()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-        Topic topic = topicRepository.findById(subjectDTO.getTopic_id()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Topic not found"));
+        User user = userRepository.findById(subjectDTO.getAuthor_id()).orElseThrow(() -> new UserNotFoundException(subjectDTO.getAuthor_id()));
+        Topic topic = topicRepository.findById(subjectDTO.getTopic_id()).orElseThrow(() -> new TopicNotFoundException(subjectDTO.getTopic_id()));
         Subject subject = mapper.toEntity(subjectDTO, user, topic);
 
         subjectRepository.save(subject);
     }
 
     public SubjectResponseDTO findSubject (Integer id){
-        Subject subject = subjectRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found"));
+        Subject subject = subjectRepository.findById(id).orElseThrow(() -> new SubjectNotFoundException(id));
         SubjectResponseDTO response = mapper.toDto(subject);
         List<MinimalCommentResponseDTO> comments = commentMapper.toDto(commentRepository.findAll().stream()
                 .filter(comment -> Objects.equals(comment.getSubject().getId(), response.getId()))
@@ -51,7 +53,7 @@ public class SubjectService {
 
     public List<SubjectResponseDTO> findSubscribedSubjects (Authentication authentication) {
         User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new UserNameNotFoundException(authentication.getName()));
         List<Topic> topics = topicService.findAllTopicsByUser(user);
         List<Subject> subjects = subjectRepository
                 .findAll().stream()
@@ -64,9 +66,9 @@ public class SubjectService {
 
     public SubjectResponseDTO addComment (CommentDTO commentDTO) {
         User user = userRepository.findById(commentDTO.getAuthor_id())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new UserNotFoundException(commentDTO.getAuthor_id()));
         Subject subject = subjectRepository.findById(commentDTO.getSubject_id())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found"));
+                .orElseThrow(() -> new SubjectNotFoundException(commentDTO.getSubject_id()));
         Comment comment = commentMapper.toEntity(commentDTO, user, subject);
         commentRepository.save(comment);
         return this.findSubject(comment.getSubject().getId());

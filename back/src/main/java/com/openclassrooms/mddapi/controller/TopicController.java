@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -33,21 +32,13 @@ public class TopicController {
 
     @PostMapping("/{id}/subscribe")
     public ResponseEntity<?> subscribeTopic (Authentication authentication, @PathVariable Integer id) {
-        try {
-            List<TopicsDTO> topicsUpdated = topicService.subscribeTopic(authentication, id);
-            return ResponseEntity.ok().body(topicsUpdated);
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
-        }
+        List<TopicsDTO> topicsUpdated = topicService.subscribeTopic(authentication, id);
+        return ResponseEntity.ok().body(topicsUpdated);
     }
 
     @PostMapping("/{id}/unsubscribe")
     public ResponseEntity<?> unsubscribeTopic (Authentication authentication, @PathVariable Integer id) {
-        try {
-            List<TopicsDTO> subscriptionUpdated = topicService.unsubscribeTopic(authentication, id);
-            return ResponseEntity.ok().body(subscriptionUpdated);
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
-        }
+        List<TopicsDTO> subscriptionUpdated = topicService.unsubscribeTopic(authentication, id);
+        return ResponseEntity.ok().body(subscriptionUpdated);
     }
 }

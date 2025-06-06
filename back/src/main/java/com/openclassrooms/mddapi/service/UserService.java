@@ -1,15 +1,15 @@
 package com.openclassrooms.mddapi.service;
 
-import ch.qos.logback.core.util.StringUtil;
 import com.openclassrooms.mddapi.dto.*;
-import com.openclassrooms.mddapi.mapper.TopicMapper;
+import com.openclassrooms.mddapi.exception.ForbiddenException;
+import com.openclassrooms.mddapi.exception.UnauthorizedException;
+import com.openclassrooms.mddapi.exception.UserNameNotFoundException;
 import com.openclassrooms.mddapi.mapper.UserMapper;
-import com.openclassrooms.mddapi.model.Subscription;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.apache.coyote.BadRequestException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,10 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,22 +32,22 @@ public class UserService {
     private final UserMapper mapper;
     private final TopicService topicService;
 
-    public String registerUser(RegisterDTO registerDTO) {
+    public String registerUser(RegisterDTO registerDTO) throws BadRequestException {
 
         if (!StringUtils.hasLength(registerDTO.getEmail()) || !StringUtils.hasLength(registerDTO.getName())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "email or username empty");
+            throw new BadRequestException("email or username empty");
         }
 
         if (userRepository.findByEmail(registerDTO.getEmail()).isPresent()
                 || userRepository.findByName(registerDTO.getName()).isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"email or username already used");
+            throw new BadRequestException("email or username already used");
         }
 
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()!?])(?=\\S+$).{8,255}$";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(registerDTO.getPassword());
         if (!m.matches()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid password");
+            throw new BadRequestException("invalid password");
         }
 
         User newUser = mapper.toEntity(registerDTO);
@@ -68,14 +66,14 @@ public class UserService {
 
         if (user.getUsername().contains("@")) {
             foundUser = userRepository.findByEmail(user.getUsername())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                    .orElseThrow(() -> new UserNameNotFoundException(user.getUsername()));
         } else {
             foundUser = userRepository.findByName(user.getUsername())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                    .orElseThrow(() -> new UserNameNotFoundException(user.getUsername()));
         }
 
         if (!passwordEncoder.matches(user.getPassword(), foundUser.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Password incorrect");
+            throw new ForbiddenException("Password incorrect");
         }
 
         return authUser(foundUser.getEmail(), user.getPassword());
@@ -89,7 +87,7 @@ public class UserService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return formatTokenResponse(authentication);
         } catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication failed: " + ex.getMessage());
+            throw new UnauthorizedException("Authentication failed: " + ex.getMessage());
         }
     }
 
@@ -99,7 +97,7 @@ public class UserService {
 
     public UserDTO findUser(Authentication authentication){
         User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new UserNameNotFoundException(authentication.getName()));
 
         List<Topic> topics = topicService.findAllTopicsByUser(user);
 
@@ -109,24 +107,24 @@ public class UserService {
         return userDTO;
     }
 
-    public UserDTO updateUser(Authentication authentication, RegisterDTO registerDTO){
+    public UserDTO updateUser(Authentication authentication, RegisterDTO registerDTO) throws BadRequestException {
         User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new UserNameNotFoundException(authentication.getName()));
 
         if (!StringUtils.hasLength(registerDTO.getEmail()) || !StringUtils.hasLength(registerDTO.getName())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "email or username empty");
+            throw new BadRequestException("email or username empty");
         }
 
         if (!user.getEmail().equals(registerDTO.getEmail())) {
             if (userRepository.findByEmail(registerDTO.getEmail()).isPresent()){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"email already used");
+                throw new BadRequestException("email already used");
             }
         }
         user.setEmail(registerDTO.getEmail());
 
         if (!user.getName().equals(registerDTO.getName())) {
             if (userRepository.findByName(registerDTO.getName()).isPresent()){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"username already used");
+                throw new BadRequestException("username already used");
             }
         }
         user.setName(registerDTO.getName());
@@ -136,7 +134,7 @@ public class UserService {
             Pattern p = Pattern.compile(regex);
             Matcher m = p.matcher(registerDTO.getPassword());
             if (!m.matches()) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid password");
+                throw new BadRequestException("invalid password");
             }
             user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         }
