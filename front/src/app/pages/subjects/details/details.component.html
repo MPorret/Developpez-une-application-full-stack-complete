@@ -9,5 +9,20 @@
         </div>
         <p>{{subject.description}}</p>
         <mat-divider></mat-divider>
+        <div class="comment-section">
+            <h2>Commentaires</h2>
+            @for(comment of subject.comments; track comment.id) {
+                <div class="comment">
+                    <p class="comment-author">{{comment.author.name}}</p>
+                    <p class="comment-content">{{comment.comment}}</p>
+                </div>
+            }
+            <form [formGroup]="form">
+                <mat-form-field appearance="outline" class="comment-input">
+                    <textarea matInput placeholder="Ajouter un commentaire" formControlName="comment"></textarea>
+                </mat-form-field>
+                <div (click)="addComment()"><mat-icon>send</mat-icon></div>
+            </form>
+        </div>
     </div>
 </div>

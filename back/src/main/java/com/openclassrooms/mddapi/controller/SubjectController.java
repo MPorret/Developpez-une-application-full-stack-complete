@@ -42,8 +42,7 @@ public class SubjectController {
     @PostMapping("/comment")
     public ResponseEntity<?> addComment (@RequestBody CommentDTO commentDTO){
         try {
-            subjectService.addComment(commentDTO);
-            return ResponseEntity.ok().body("");
+            return ResponseEntity.ok().body(subjectService.addComment(commentDTO));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
         }

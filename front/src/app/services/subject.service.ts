@@ -10,6 +10,12 @@ export interface SubjectDto {
   author_id: number;
 }
 
+export interface CommentDto {
+  comment: string;
+  subject_id: number;
+  author_id: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,5 +33,9 @@ export class SubjectService {
 
   public createSubject(subject: SubjectDto): Observable<void> {
     return this.httpClient.post<void>('/api/subject', subject);
+  }
+
+  public addComment(comment: CommentDto): Observable<Subject> {
+    return this.httpClient.post<Subject>(`/api/subject/comment`, comment);
   }
 }
