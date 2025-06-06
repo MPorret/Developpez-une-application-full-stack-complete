@@ -7,13 +7,11 @@
     <mat-sidenav-content>
         <div class="header">
             <img src="../../../assets/logo_p6.png" />
-            @if ($isLogged() | async) {
-                <app-menu class="menu" />
-                @if(isMobile){
-                    <div (click)="open()" class="burger-menu">
-                        <mat-icon>menu</mat-icon>
-                    </div>
-                }
+            <app-menu class="menu" />
+            @if(isMobile){
+                <div (click)="open()" class="burger-menu">
+                    <mat-icon>menu</mat-icon>
+                </div>
             }
         </div>
         <main>

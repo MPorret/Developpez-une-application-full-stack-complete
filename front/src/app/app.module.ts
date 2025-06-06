@@ -9,7 +9,7 @@ import { LayoutwithheaderComponent } from './layouts/layoutwithheader/layoutwith
 import { LayoutComponent } from './layouts/layout/layout.component';
 import { SubscribeButtonComponent } from './commons/subscribe-button/subscribe-button.component';
 import { MenuComponent } from "./commons/menu/menu.component";
-import { RegisterComponent } from './pages/register/register.component';
+import { RegisterComponent } from './pages/auth/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BackButtonComponent } from './commons/back-button/back-button.component';
 import { HomeComponent } from './pages/home/home.component';

@@ -6,15 +6,14 @@ import { SessionInformation } from 'src/app/interface/sessionInformation.interfa
 import { LoginDTO } from 'src/app/interface/user.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { SessionService } from 'src/app/services/session.service';
-import { BackButtonComponent } from "../../commons/back-button/back-button.component";
-import { SubscribeButtonComponent } from "../../commons/subscribe-button/subscribe-button.component";
+import { SubscribeButtonComponent } from "../../../commons/subscribe-button/subscribe-button.component";
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 
 @Component({
   selector: 'app-login',
-  imports: [BackButtonComponent, SubscribeButtonComponent, MatCardModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
+  imports: [SubscribeButtonComponent, MatCardModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

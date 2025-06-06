@@ -1,0 +1,18 @@
+@if(isMobile){
+    <div class="back-button">
+        <app-back-button />
+    </div>
+}
+<div class="header">
+    <img src="../../../assets/logo_p6.png" />
+</div>
+@if(!isMobile){
+    <div class="back-button">
+        <app-back-button />
+    </div>
+}
+<main>
+    <router-outlet>
+    </router-outlet>  
+</main>
+    

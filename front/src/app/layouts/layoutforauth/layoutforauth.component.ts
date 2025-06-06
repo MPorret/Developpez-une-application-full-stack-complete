@@ -1,26 +1,22 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { MenuComponent } from "../../commons/menu/menu.component";
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { BackButtonComponent } from "../../commons/back-button/back-button.component";
 
 @Component({
-  selector: 'app-layoutwithheader',
-  templateUrl: './layoutwithheader.component.html',
-  styleUrl: './layoutwithheader.component.scss',
-  imports: [MatSidenavModule, MatIconModule, MenuComponent, RouterModule, CommonModule]
+  selector: 'app-layoutforauth',
+  templateUrl: './layoutforauth.component.html',
+  styleUrl: './layoutforauth.component.scss',
+  imports: [MatSidenavModule, MatIconModule, RouterModule, CommonModule, BackButtonComponent]
 })
-export class LayoutwithheaderComponent implements OnInit {
+export class LayoutForAuthComponent implements OnInit {
   @ViewChild('sidenav')
   sidenav!: MatSidenav;
   isMobile = false;
 
   constructor(){}
-
-  public open(): void {
-    this.sidenav.open();
-  }
 
   ngOnInit() {
     this.checkScreenSize();
