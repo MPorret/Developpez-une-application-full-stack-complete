@@ -17,5 +17,32 @@ div.subject-page {
             }
         }
 
+        .comment {
+            display: flex;
+            gap: 20px;
+            margin-left: 20px;
+
+            .comment-author {
+                flex: 1;
+            }
+
+            .comment-content {
+                background-color: rgb(238, 238, 238);
+                border-radius: 10px;
+                padding: 20px;
+                width: 70%
+            }
+        }
+
+        form {
+            display:flex;
+            align-items: center;
+            gap: 20px;
+            margin-top:20px;
+
+            .comment-input {
+                flex: 1;
+            }
+        }
     }
 }

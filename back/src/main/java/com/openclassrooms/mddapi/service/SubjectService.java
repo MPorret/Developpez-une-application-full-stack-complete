@@ -62,12 +62,13 @@ public class SubjectService {
         return mapper.toDto(subjects);
     }
 
-    public void addComment (CommentDTO commentDTO) {
+    public SubjectResponseDTO addComment (CommentDTO commentDTO) {
         User user = userRepository.findById(commentDTO.getAuthor_id())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         Subject subject = subjectRepository.findById(commentDTO.getSubject_id())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found"));
         Comment comment = commentMapper.toEntity(commentDTO, user, subject);
         commentRepository.save(comment);
+        return this.findSubject(comment.getSubject().getId());
     }
 }
