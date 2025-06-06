@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/subject")
@@ -17,21 +16,13 @@ public class SubjectController {
 
     @PostMapping("")
     public ResponseEntity<?> createSubject (@RequestBody SubjectDTO subjectDTO){
-        try {
-            subjectService.createSubject(subjectDTO);
-            return ResponseEntity.ok().body("");
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
-        }
+        subjectService.createSubject(subjectDTO);
+        return ResponseEntity.ok().body("");
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getSubjectInfos (@PathVariable Integer id){
-        try {
-            return ResponseEntity.ok().body(subjectService.findSubject(id));
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
-        }
+        return ResponseEntity.ok().body(subjectService.findSubject(id));
     }
 
     @GetMapping("")
@@ -41,10 +32,6 @@ public class SubjectController {
 
     @PostMapping("/comment")
     public ResponseEntity<?> addComment (@RequestBody CommentDTO commentDTO){
-        try {
-            return ResponseEntity.ok().body(subjectService.addComment(commentDTO));
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
-        }
+        return ResponseEntity.ok().body(subjectService.addComment(commentDTO));
     }
 }
