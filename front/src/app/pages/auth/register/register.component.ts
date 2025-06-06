@@ -5,7 +5,6 @@ import { RegisterDTO } from 'src/app/interface/user.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { SessionService } from 'src/app/services/session.service';
 import { SessionInformation } from 'src/app/interface/sessionInformation.interface';
-import { BackButtonComponent } from 'src/app/commons/back-button/back-button.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { SubscribeButtonComponent } from 'src/app/commons/subscribe-button/subscribe-button.component';
@@ -16,7 +15,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
-  imports: [BackButtonComponent, MatCardModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, SubscribeButtonComponent, FormsModule]
+  imports: [MatCardModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, SubscribeButtonComponent, FormsModule]
 })
 export class RegisterComponent implements OnDestroy {
   public onError: boolean = false;

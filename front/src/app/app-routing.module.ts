@@ -2,16 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { TopicsComponent } from './pages/topics/topics.component';
-import { RegisterComponent } from './pages/register/register.component';
+import { RegisterComponent } from './pages/auth/register/register.component';
 import { UnauthGuard } from './guards/unauth.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { LayoutwithheaderComponent } from './layouts/layoutwithheader/layoutwithheader.component';
 import { LayoutComponent } from './layouts/layout/layout.component';
-import { LoginComponent } from './pages/login/login.component';
+import { LoginComponent } from './pages/auth/login/login.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SubjectsComponent } from './pages/subjects/subjects.component';
 import { CreateComponent } from './pages/subjects/create/create.component';
 import { DetailsComponent } from './pages/subjects/details/details.component';
+import { LayoutForAuthComponent } from './layouts/layoutforauth/layoutforauth.component';
 
 const routes: Routes = [
   { path: '', 
@@ -21,18 +22,12 @@ const routes: Routes = [
       { path: '', component: HomeComponent }
     ]
   },
-  { path: 'register', 
+  { path: 'auth', 
     canActivate: [UnauthGuard],
-    component: LayoutwithheaderComponent,
+    component: LayoutForAuthComponent,
     children: [
-      { path: '', component: RegisterComponent }
-    ]
-  },
-  { path: 'login', 
-    canActivate: [UnauthGuard],
-    component: LayoutwithheaderComponent,
-    children: [
-      { path: '', component: LoginComponent }
+      { path: 'register', component: RegisterComponent },
+      { path: 'login', component: LoginComponent }
     ]
   },
   { path: 'articles', 
