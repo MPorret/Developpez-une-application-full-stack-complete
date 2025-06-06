@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,6 +22,7 @@ public class SubjectResponseDTO {
     private String message;
     private MinimalUserDTO author;
     private Topic topic;
+    private List<MinimalCommentResponseDTO> comments;
     @JsonProperty("created_at")
     private Date createdAt;
     @JsonProperty("updated_at")

@@ -17,6 +17,7 @@ public interface UserMapper {
     User toEntity(RegisterDTO dto);
 
     @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "token", ignore = true)
     UserDTO toDto(User user);
 
     MinimalUserDTO toMinimalDto(User user);
