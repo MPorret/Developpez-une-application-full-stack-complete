@@ -21,7 +21,7 @@ import { Post } from 'src/app/interface/post.interface';
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   public post!: Post;
-  public subscription!: Subscription;
+  public subscriptions: Subscription[] = [];
   public userId!: number;
   public onError: boolean = false;
 
@@ -45,7 +45,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       author_id: this.userId,
       post_id: this.post.id
     }
-    this.subscription = this.postService.addComment(comment).subscribe({
+    this.subscriptions.push(this.postService.addComment(comment).subscribe({
       next: (post) => {
         this.post = post;
         this.form.reset();
@@ -53,29 +53,29 @@ export class DetailsComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.onError = true;
       }
-    });
+    }));
   }
 
   ngOnInit(): void {
-    this.subscription = this.postService.getPostById(this.route.snapshot.params['id']).subscribe({
+    this.subscriptions.push(this.postService.getPostById(this.route.snapshot.params['id']).subscribe({
       next: (post) => {
         this.post = post;
       },
       error: (err) => {
         console.error('Error fetching post details:', err);
       }
-    });
+    }));
 
-    this.subscription = this.userService.getUserInfo().subscribe({
+    this.subscriptions.push(this.userService.getUserInfo().subscribe({
       next: (user: User) => {
         this.userId = user.id;
       }
-    });
+    }));
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe
+    })
   }
 }

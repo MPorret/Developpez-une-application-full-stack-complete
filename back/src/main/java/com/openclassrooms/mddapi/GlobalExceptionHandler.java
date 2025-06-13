@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi;
 
 import com.openclassrooms.mddapi.exception.*;
-import com.openclassrooms.mddapi.model.ErrorEntity;
+import com.openclassrooms.mddapi.dto.ErrorDTO;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorEntity> userNotFoundHandler(UserNotFoundException exception) {
-        ErrorEntity error = ErrorEntity.builder()
+    public ResponseEntity<ErrorDTO> userNotFoundHandler(UserNotFoundException exception) {
+        ErrorDTO error = ErrorDTO.builder()
                 .timeStamp(LocalDateTime.now())
                 .message(exception.getMessage())
                 .httpStatus(HttpStatus.NOT_FOUND.value())
@@ -24,8 +24,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserNameNotFoundException.class)
-    public ResponseEntity<ErrorEntity> userNotFoundHandler(UserNameNotFoundException exception) {
-        ErrorEntity error = ErrorEntity.builder()
+    public ResponseEntity<ErrorDTO> userNotFoundHandler(UserNameNotFoundException exception) {
+        ErrorDTO error = ErrorDTO.builder()
                 .timeStamp(LocalDateTime.now())
                 .message(exception.getMessage())
                 .httpStatus(HttpStatus.NOT_FOUND.value())
@@ -35,8 +35,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(TopicNotFoundException.class)
-    public ResponseEntity<ErrorEntity> topicNotFoundHandler(TopicNotFoundException exception) {
-        ErrorEntity error = ErrorEntity.builder()
+    public ResponseEntity<ErrorDTO> topicNotFoundHandler(TopicNotFoundException exception) {
+        ErrorDTO error = ErrorDTO.builder()
                 .timeStamp(LocalDateTime.now())
                 .message(exception.getMessage())
                 .httpStatus(HttpStatus.NOT_FOUND.value())
@@ -46,8 +46,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(PostNotFoundException.class)
-    public ResponseEntity<ErrorEntity> postNotFoundHandler(PostNotFoundException exception) {
-        ErrorEntity error = ErrorEntity.builder()
+    public ResponseEntity<ErrorDTO> postNotFoundHandler(PostNotFoundException exception) {
+        ErrorDTO error = ErrorDTO.builder()
                 .timeStamp(LocalDateTime.now())
                 .message(exception.getMessage())
                 .httpStatus(HttpStatus.NOT_FOUND.value())
@@ -57,8 +57,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(SubscriptionNotFoundException.class)
-    public ResponseEntity<ErrorEntity> subscriptionNotFoundHandler(SubscriptionNotFoundException exception) {
-        ErrorEntity error = ErrorEntity.builder()
+    public ResponseEntity<ErrorDTO> subscriptionNotFoundHandler(SubscriptionNotFoundException exception) {
+        ErrorDTO error = ErrorDTO.builder()
                 .timeStamp(LocalDateTime.now())
                 .message(exception.getMessage())
                 .httpStatus(HttpStatus.NOT_FOUND.value())
@@ -68,8 +68,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorEntity> badRequestHandler(BadRequestException exception) {
-        ErrorEntity error = ErrorEntity.builder()
+    public ResponseEntity<ErrorDTO> badRequestHandler(BadRequestException exception) {
+        ErrorDTO error = ErrorDTO.builder()
                 .timeStamp(LocalDateTime.now())
                 .message(exception.getMessage())
                 .httpStatus(HttpStatus.BAD_REQUEST.value())
@@ -79,8 +79,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<ErrorEntity> unauthorizedHandler(UnauthorizedException exception) {
-        ErrorEntity error = ErrorEntity.builder()
+    public ResponseEntity<ErrorDTO> unauthorizedHandler(UnauthorizedException exception) {
+        ErrorDTO error = ErrorDTO.builder()
                 .timeStamp(LocalDateTime.now())
                 .message(exception.getMessage())
                 .httpStatus(HttpStatus.UNAUTHORIZED.value())
@@ -90,8 +90,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ForbiddenException.class)
-    public ResponseEntity<ErrorEntity> forbiddenHandler(ForbiddenException exception) {
-        ErrorEntity error = ErrorEntity.builder()
+    public ResponseEntity<ErrorDTO> forbiddenHandler(ForbiddenException exception) {
+        ErrorDTO error = ErrorDTO.builder()
                 .timeStamp(LocalDateTime.now())
                 .message(exception.getMessage())
                 .httpStatus(HttpStatus.FORBIDDEN.value())

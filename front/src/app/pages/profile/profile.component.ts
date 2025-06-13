@@ -21,7 +21,7 @@ import { TopicService } from 'src/app/services/topic.service';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   public user!: User | undefined;
-  private subscription!: Subscription;
+  private subscriptions: Subscription[] = [];
   public onError: boolean = false;
   public onSuccess: boolean = false;
 
@@ -55,7 +55,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void{
     const updateRequest = this.form.value as RegisterDTO;
-    this.subscription = this.userService.updateUserInfo(updateRequest).subscribe({
+    this.subscriptions.push(this.userService.updateUserInfo(updateRequest).subscribe({
       next: (user: User) => {
         this.sessionService.logIn({token: user.token});
         localStorage.setItem('token', user.token);
@@ -71,18 +71,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
         , 3000);
       },
       error: error => this.onError = true,
-    });
+    }));
   }
 
   public onUnsubscribe(topicId: number): void {
-    this.subscription = this.topicService.unsubscribe(topicId).subscribe({
+    this.subscriptions.push(this.topicService.unsubscribe(topicId).subscribe({
       next: (data) => {
         this.user!.topics = data;
       },
       error: (err) => {
         console.error('Unsubscription failed', err);
       },
-    });
+    }));
   }
 
   public handleOnUnsubscribe(topicId: number): () => void {
@@ -90,7 +90,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.userService.getUserInfo().subscribe({
+    this.subscriptions.push(this.userService.getUserInfo().subscribe({
       next: (user: User) => {
         this.user = user;
         this.form.setValue({
@@ -102,12 +102,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
       error: (err: any) => {
         console.error('Error fetching user info:', err);
       }
-    });
+    }));
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe
+    })
   }
 }
