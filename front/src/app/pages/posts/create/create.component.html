@@ -1,11 +1,11 @@
 <app-back-button />
 <h2>Créer un nouvel article</h2>
-<form class="subject-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+<form class="post-form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <mat-card-content>
         <mat-form-field appearance="outline">
             <mat-label>Thème</mat-label>
             <mat-select placeholder="Selectionner un thème" formControlName="topic_id">
-                @for (topic of (topics$ | async); track topic.id) {
+                @for (topic of topics; track topic.id) {
                     <mat-option [value]="topic.id">{{ topic.name }}</mat-option>
                 }
             </mat-select>

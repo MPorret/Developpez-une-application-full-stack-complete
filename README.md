@@ -1,25 +1,58 @@
-# P6-Full-Stack-reseau-dev
+# MDD
 
-## Front
+## Start the backend project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+### Create the database
 
-Don't forget to install your node_modules before starting (`npm install`).
+Create a new database mysql :
 
-### Development server
+> CREATE DATABASE mdd;
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+The schema will be automatically generate with `spring.jpa.hibernate.ddl-auto=update`.
 
-### Build
+### Add the environment variables
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+In your IDE, add and custom the following environment variables:
 
-### Where to start
+```
+APP_DB_HOST=localhost
+APP_DB_PORT=3006
+APP_DB_NAME=myDatabase
+APP_DB_USER=root
+APP_DB_PASSWORD=password
+JWT_KEY=your_jwt_key
+```
 
-As you may have seen if you already started the app, a simple home page containing a logo, a title and a button is available. If you take a look at its code (in the `home.component.html`) you will see that an external UI library is already configured in the project.
+### Start the project
 
-This library is `@angular/material`, it's one of the most famous in the angular ecosystem. As you can see on their docs (https://material.angular.io/), it contains a lot of highly customizable components that will help you design your interfaces quickly.
+Git clone:
 
-Note: I recommend to use material however it's not mandatory, if you prefer you can get rid of it.
+> git clone https://github.com/MPorret/Testez-une-application-full-stack
 
-Good luck!
+Go inside folder:
+
+> cd Testez-une-application-full-stack/back
+
+Install dependencies:
+
+> mvn clean install
+
+Launch API:
+
+> mvn spring-boot:run
+
+## Start the frontend project
+
+Go inside folder:
+
+> cd Testez-une-application-full-stack/front
+
+Install dependencies:
+
+> npm install
+
+Launch Front-end:
+
+> ng serve;
+
+Access to the app : http://localhost:4200

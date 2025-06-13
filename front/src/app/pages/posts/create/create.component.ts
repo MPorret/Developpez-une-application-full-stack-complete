@@ -5,16 +5,16 @@ import { SubscribeButtonComponent } from "../../../commons/subscribe-button/subs
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BackButtonComponent } from "../../../commons/back-button/back-button.component";
-import { TopicService } from 'src/app/services/topic.service';
 import { CommonModule } from '@angular/common';
 import { MatOptionModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import { Router } from '@angular/router';
-import { SubjectDto, SubjectService } from 'src/app/services/subject.service';
+import { PostDto, PostService } from 'src/app/services/post.service';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/interface/user.interface';
 import { UserService } from 'src/app/services/user.service';
 import {TextFieldModule} from '@angular/cdk/text-field';
+import { Topic } from 'src/app/interface/topic.interface';
 
 @Component({
   selector: 'app-create',
@@ -23,7 +23,7 @@ import {TextFieldModule} from '@angular/cdk/text-field';
   styleUrl: './create.component.scss'
 })
 export class CreateComponent implements OnInit, OnDestroy {
-  public topics$ = this.topicService.all();
+  public topics!: Topic[];
   public userId!: number;
   public subscription!: Subscription;
   public onError: boolean = false;
@@ -45,8 +45,7 @@ export class CreateComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private subjectService: SubjectService,
-    private topicService: TopicService,
+    private postService: PostService,
     private userService: UserService, 
     private router: Router 
   ) {}
@@ -55,6 +54,7 @@ export class CreateComponent implements OnInit, OnDestroy {
     this.subscription = this.userService.getUserInfo().subscribe({
       next: (user: User) => {
         this.userId = user.id;
+        this.topics = user.topics
       }
     });
   }
@@ -65,14 +65,14 @@ export class CreateComponent implements OnInit, OnDestroy {
       ...this.form.value,
       topic_id: Number(this.form.value.topic_id),
       author_id: this.userId,
-    } as SubjectDto;
-    this.subjectService.createSubject(formValue).subscribe({
+    } as PostDto;
+    this.postService.createPost(formValue).subscribe({
       next: () => {
         console.log('success')
         this.router.navigate(['/articles']);
       },
       error: err => {
-        console.error('Error creating subject:', err);
+        console.error('Error creating post:', err);
         this.onError = true},
     });
   }

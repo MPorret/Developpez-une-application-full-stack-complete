@@ -17,11 +17,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Service to manage users.
+ */
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -32,6 +36,13 @@ public class UserService {
     private final UserMapper mapper;
     private final TopicService topicService;
 
+    /**
+     * Save a new user
+     *
+     * @param registerDTO User infos needed to be registered
+     * @return JWT token if authentication succeed
+     * @throws BadRequestException if email or username are empty, if  email or username are already used, if password is not valid
+     * */
     public String registerUser(RegisterDTO registerDTO) throws BadRequestException {
 
         if (!StringUtils.hasLength(registerDTO.getEmail()) || !StringUtils.hasLength(registerDTO.getName())){
@@ -61,6 +72,14 @@ public class UserService {
         );
     }
 
+    /**
+     * Log a user
+     *
+     * @param user User infos needed to be logged
+     * @return JWT token if authentication succeed
+     * @throws UserNameNotFoundException if email or username does not exist
+     * @throws ForbiddenException if password does not match with saved password
+     * */
     public String loginUser(LoginDTO user) {
         User foundUser;
 
@@ -79,6 +98,14 @@ public class UserService {
         return authUser(foundUser.getEmail(), user.getPassword());
     }
 
+    /**
+     * Auth user
+     *
+     * @param email User email to authenticate it
+     * @param password User password to authenticate it
+     * @return JWT token if authentication succeed
+     * @throws UnauthorizedException if authentication failed
+     * */
     public String authUser(String email, String password) {
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -91,10 +118,23 @@ public class UserService {
         }
     }
 
+    /**
+     * Generate token
+     *
+     * @param authentication Authentication infos
+     * @return JWT token with authentication infos
+     * */
     public String formatTokenResponse(Authentication authentication){
         return jwtService.generateToken(authentication);
     }
 
+    /**
+     * Find user
+     *
+     * @param authentication Authentication info of user logged
+     * @return User information
+     * @throws UserNameNotFoundException if user is not found with this name
+     * */
     public UserDTO findUser(Authentication authentication){
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UserNameNotFoundException(authentication.getName()));
@@ -107,36 +147,45 @@ public class UserService {
         return userDTO;
     }
 
-    public UserDTO updateUser(Authentication authentication, RegisterDTO registerDTO) throws BadRequestException {
+    /**
+     * Update user
+     *
+     * @param authentication Authentication info of logged user
+     * @param updatedUser Updated info of the user
+     * @return JWT token if authentication succeed
+     * @throws UserNameNotFoundException if user is not found with this name
+     * @throws BadRequestException if email or username are empty, if  email or username are already used, if password is not valid
+     * */
+    public UserDTO updateUser(Authentication authentication, RegisterDTO updatedUser) throws BadRequestException {
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UserNameNotFoundException(authentication.getName()));
 
-        if (!StringUtils.hasLength(registerDTO.getEmail()) || !StringUtils.hasLength(registerDTO.getName())){
+        if (!StringUtils.hasLength(updatedUser.getEmail()) || !StringUtils.hasLength(updatedUser.getName())){
             throw new BadRequestException("email or username empty");
         }
 
-        if (!user.getEmail().equals(registerDTO.getEmail())) {
-            if (userRepository.findByEmail(registerDTO.getEmail()).isPresent()){
+        if (!user.getEmail().equals(updatedUser.getEmail())) {
+            if (userRepository.findByEmail(updatedUser.getEmail()).isPresent()){
                 throw new BadRequestException("email already used");
             }
         }
-        user.setEmail(registerDTO.getEmail());
+        user.setEmail(updatedUser.getEmail());
 
-        if (!user.getName().equals(registerDTO.getName())) {
-            if (userRepository.findByName(registerDTO.getName()).isPresent()){
+        if (!user.getName().equals(updatedUser.getName())) {
+            if (userRepository.findByName(updatedUser.getName()).isPresent()){
                 throw new BadRequestException("username already used");
             }
         }
-        user.setName(registerDTO.getName());
+        user.setName(updatedUser.getName());
 
-        if (StringUtils.hasLength(registerDTO.getPassword())) {
+        if (StringUtils.hasLength(updatedUser.getPassword())) {
             String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()!?])(?=\\S+$).{8,255}$";
             Pattern p = Pattern.compile(regex);
-            Matcher m = p.matcher(registerDTO.getPassword());
+            Matcher m = p.matcher(updatedUser.getPassword());
             if (!m.matches()) {
                 throw new BadRequestException("invalid password");
             }
-            user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+            user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         }
 
         List<Topic> topics = topicService.findAllTopicsByUser(user);

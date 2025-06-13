@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class SubjectDTO {
+public class PostDTO {
     private String title;
     private String message;
     private Integer topic_id;

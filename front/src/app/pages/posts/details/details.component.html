@@ -1,17 +1,17 @@
 <app-back-button />
-<div class="subject-page">
-    <div class="subject-details">
-        <h2>{{subject.name}}</h2>
-        <div class="subject-info">
-            <p>{{subject.created_at | date}}</p>
-            <p>{{subject.author.name}}</p>
-            <p>{{subject.topic.name}}</p>
+<div class="post-page">
+    <div class="post-details">
+        <h2>{{post.name}}</h2>
+        <div class="post-info">
+            <p>{{post.created_at | date}}</p>
+            <p>{{post.author.name}}</p>
+            <p>{{post.topic.name}}</p>
         </div>
-        <p>{{subject.description}}</p>
+        <p>{{post.description}}</p>
         <mat-divider></mat-divider>
         <div class="comment-section">
             <h2>Commentaires</h2>
-            @for(comment of subject.comments; track comment.id) {
+            @for(comment of post.comments; track comment.id) {
                 <div class="comment">
                     <p class="comment-author">{{comment.author.name}}</p>
                     <p class="comment-content">{{comment.comment}}</p>

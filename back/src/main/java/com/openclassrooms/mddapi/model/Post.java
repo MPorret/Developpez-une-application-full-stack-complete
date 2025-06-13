@@ -13,7 +13,7 @@ import java.util.Date;
 @Table(name = "ARTICLES")
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class Subject {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

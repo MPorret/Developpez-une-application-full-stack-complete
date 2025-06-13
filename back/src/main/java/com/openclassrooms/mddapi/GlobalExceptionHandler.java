@@ -45,8 +45,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(error);
     }
 
-    @ExceptionHandler(SubjectNotFoundException.class)
-    public ResponseEntity<ErrorEntity> subjectNotFoundHandler(SubjectNotFoundException exception) {
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<ErrorEntity> postNotFoundHandler(PostNotFoundException exception) {
         ErrorEntity error = ErrorEntity.builder()
                 .timeStamp(LocalDateTime.now())
                 .message(exception.getMessage())
