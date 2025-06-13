@@ -1,7 +1,7 @@
 import { Topic } from "./topic.interface"
 import { User } from "./user.interface"
 
-export interface Subject {
+export interface Post {
     id: number,
     name: string,
     description: string,

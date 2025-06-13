@@ -1,17 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BackButtonComponent } from "../../../commons/back-button/back-button.component";
-import { CommentDto, SubjectService } from 'src/app/services/subject.service';
+import { CommentDto, PostService } from 'src/app/services/post.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { Subscription } from 'rxjs';
-import { Subject } from 'src/app/interface/subject.interface';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/interface/user.interface';
+import { Post } from 'src/app/interface/post.interface';
 
 @Component({
   selector: 'app-details',
@@ -20,7 +20,7 @@ import { User } from 'src/app/interface/user.interface';
   styleUrl: './details.component.scss'
 })
 export class DetailsComponent implements OnInit, OnDestroy {
-  public subject!: Subject;
+  public post!: Post;
   public subscription!: Subscription;
   public userId!: number;
   public onError: boolean = false;
@@ -34,7 +34,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private subjectService: SubjectService,
+    private postService:PostService,
     private userService: UserService,
     private route: ActivatedRoute) { }
 
@@ -43,11 +43,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
     const comment: CommentDto = {
       comment: this.form.value.comment!,
       author_id: this.userId,
-      subject_id: this.subject.id
+      post_id: this.post.id
     }
-    this.subscription = this.subjectService.addComment(comment).subscribe({
-      next: (subject) => {
-        this.subject = subject;
+    this.subscription = this.postService.addComment(comment).subscribe({
+      next: (post) => {
+        this.post = post;
         this.form.reset();
       },
       error: (err) => {
@@ -57,12 +57,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.subjectService.getSubjectById(this.route.snapshot.params['id']).subscribe({
-      next: (subject) => {
-        this.subject = subject;
+    this.subscription = this.postService.getPostById(this.route.snapshot.params['id']).subscribe({
+      next: (post) => {
+        this.post = post;
       },
       error: (err) => {
-        console.error('Error fetching subject details:', err);
+        console.error('Error fetching post details:', err);
       }
     });
 

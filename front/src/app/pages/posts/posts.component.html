@@ -1,0 +1,27 @@
+<div>
+    <div class="options">
+        <app-subscribe-button [onClick]="onClickCreate">
+            Créer un article
+        </app-subscribe-button>
+        <div (click)="onSort()" class="sort-button">
+            <span>Trier par</span>
+            <mat-icon class="material-icons">{{sort}}</mat-icon>
+        </div>
+    </div>
+    <div class="posts-list">
+        @for(post of posts; track post.id) {
+            <app-card (click)="onClick(post.id)">
+                <h2>{{post.name}}</h2>
+                <div class="post-info">
+                    <p>Date : {{post.created_at | date}}</p>
+                    <p>Par {{post.author.name}}</p>
+                </div>
+                @if(post.description.length > 255){
+                    <p>{{post.description.substring(0, 255)}}...</p>
+                } @else {
+                    <p>{{post.description}}</p>
+                }
+            </app-card>
+        }
+    </div>
+</div>

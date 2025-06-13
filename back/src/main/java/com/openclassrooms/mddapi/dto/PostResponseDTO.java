@@ -2,8 +2,6 @@ package com.openclassrooms.mddapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.openclassrooms.mddapi.model.Topic;
-import com.openclassrooms.mddapi.model.User;
-import jakarta.websocket.MessageHandler;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class SubjectResponseDTO {
+public class PostResponseDTO {
     private Integer id;
     @JsonProperty("name")
     private String title;

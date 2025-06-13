@@ -13,6 +13,7 @@ import com.openclassrooms.mddapi.repository.SubscriptionRepository;
 import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service to manage topics.
+ */
 @Service
 @RequiredArgsConstructor
 public class TopicService {
@@ -28,6 +32,15 @@ public class TopicService {
     private final UserRepository userRepository;
     private final TopicMapper mapper;
 
+
+    /**
+     * Find all topics
+     *
+     * @param authentication Authentication info of logged user
+     * @return List of all topics with subscription info
+     * @throws UserNameNotFoundException if user is not found with this name
+     * @throws TopicNotFoundException if topic doesn't exist with id
+     * */
     public List<TopicsDTO> findAllTopics(Authentication authentication){
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UserNameNotFoundException(authentication.getName()));
@@ -44,10 +57,24 @@ public class TopicService {
         return topics;
     }
 
+    /**
+     * Save a new topic
+     *
+     * @param topicDTO Authentication info of logged user
+     * */
     public void createTopic (TopicDTO topicDTO) {
         topicRepository.save(mapper.toEntity(topicDTO));
     }
 
+    /**
+     * Subscribe a topic
+     *
+     * @param authentication Authentication info of logged user
+     * @param topicId Id of topic to subscribe
+     * @return List of all topics with subscription info
+     * @throws UserNameNotFoundException if user is not found with this name
+     * @throws TopicNotFoundException if topic doesn't exist with id
+     * */
     public List<TopicsDTO> subscribeTopic(Authentication authentication, Integer topicId){
         User user = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new UserNameNotFoundException(authentication.getName()));
         Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new TopicNotFoundException(topicId));
@@ -57,6 +84,16 @@ public class TopicService {
         return findAllTopics(authentication);
     }
 
+    /**
+     * Unsubscribe a topic
+     *
+     * @param authentication Authentication info of logged user
+     * @param topicId Id of topic to unsubscribe
+     * @return List of all topics with subscription info
+     * @throws UserNameNotFoundException if user is not found with this name
+     * @throws TopicNotFoundException if topic doesn't exist with id
+     * @throws SubscriptionNotFoundException if subscription doesn't exist with id
+     * */
     public List<TopicsDTO> unsubscribeTopic (Authentication authentication, Integer topicId) {
         User user = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new UserNameNotFoundException(authentication.getName()));
         Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new TopicNotFoundException(topicId));
@@ -65,8 +102,14 @@ public class TopicService {
         return mapper.toDtoList(findAllTopicsByUser(user));
     }
 
+    /**
+     * Find all topics of a user
+     *
+     * @param user User info
+     * @return List of all topics
+     * */
     public List<Topic> findAllTopicsByUser(User user){
-        List<Topic> topics = new ArrayList<Topic>();
+        List<Topic> topics = new ArrayList<>();
         List<Subscription> subscriptions = subscriptionRepository.findAllByUser(user);
         for (Subscription subscription : subscriptions) {
             topics.add(subscription.getTopic());

@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Service to generate token.
+ */
 @Service
 @RequiredArgsConstructor
 public class JWTService {

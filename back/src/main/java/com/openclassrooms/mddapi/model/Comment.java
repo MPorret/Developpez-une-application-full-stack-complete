@@ -32,7 +32,7 @@ public class Comment {
     @ManyToOne
     @NonNull
     @JoinColumn(name="article_id", nullable=false)
-    private Subject subject;
+    private Post post;
 
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
