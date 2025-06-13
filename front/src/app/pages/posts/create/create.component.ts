@@ -25,7 +25,7 @@ import { Topic } from 'src/app/interface/topic.interface';
 export class CreateComponent implements OnInit, OnDestroy {
   public topics!: Topic[];
   public userId!: number;
-  public subscription!: Subscription;
+  public subscriptions: Subscription[] = [];
   public onError: boolean = false;
 
   public form = this.fb.group({
@@ -51,12 +51,12 @@ export class CreateComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.userService.getUserInfo().subscribe({
+    this.subscriptions.push(this.userService.getUserInfo().subscribe({
       next: (user: User) => {
         this.userId = user.id;
         this.topics = user.topics
       }
-    });
+    }));
   }
 
   public onSubmit(): void {
@@ -66,7 +66,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       topic_id: Number(this.form.value.topic_id),
       author_id: this.userId,
     } as PostDto;
-    this.postService.createPost(formValue).subscribe({
+    this.subscriptions.push(this.postService.createPost(formValue).subscribe({
       next: () => {
         console.log('success')
         this.router.navigate(['/articles']);
@@ -74,12 +74,12 @@ export class CreateComponent implements OnInit, OnDestroy {
       error: err => {
         console.error('Error creating post:', err);
         this.onError = true},
-    });
+    }));
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe
+    })
   }
 }

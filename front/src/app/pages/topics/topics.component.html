@@ -1,5 +1,5 @@
 <div>
-    @for(topic of (topics$ | async); track topic.id) {
+    @for(topic of topics; track topic.id) {
         <app-card>
             <h2>{{topic.name}}</h2>
             @if(topic.description.length > 255){

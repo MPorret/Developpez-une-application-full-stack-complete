@@ -1,4 +1,4 @@
-package com.openclassrooms.mddapi.model;
+package com.openclassrooms.mddapi.dto;
 
 import lombok.Builder;
 
@@ -6,7 +6,7 @@ import java.beans.Transient;
 import java.time.LocalDateTime;
 
 @Builder
-public record ErrorEntity(
+public record ErrorDTO(
         LocalDateTime timeStamp,
         String message,
         @Transient

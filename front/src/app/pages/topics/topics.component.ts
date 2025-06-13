@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { CardComponent } from 'src/app/commons/card/card.component';
 import { Topic } from 'src/app/interface/topic.interface';
 import { TopicService } from 'src/app/services/topic.service';
@@ -12,21 +12,39 @@ import { SubscribeButtonComponent } from "../../commons/subscribe-button/subscri
   templateUrl: './topics.component.html',
   styleUrl: './topics.component.scss'
 })
-export class TopicsComponent {
-  public topics$: Observable<Topic[]> = this.topicService.all();
+export class TopicsComponent implements OnInit, OnDestroy {
+  public topics!: Topic[];
+  public subscriptions: Subscription[] = [];
 
   constructor(
     private topicService: TopicService
   ) { }
 
   onSubscribe(topic: Topic): void {
-    this.topicService.subscribe(topic.id).subscribe({
+    this.subscriptions.push(this.topicService.subscribe(topic.id).subscribe({
       next: (data) => {
-        this.topics$ = of(data);
+        this.topics = data;
       },
       error: (err) => {
         console.error('Subscription failed', err);
       },
-    });
+    }));
+  }
+
+  ngOnInit(): void {
+    this.subscriptions.push(this.topicService.all().subscribe({
+      next:  (data) => {
+        this.topics = data;
+      },
+      error: (err) => {
+        console.error('Subscription failed', err);
+      },
+    }))
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe
+    })
   }
 }
