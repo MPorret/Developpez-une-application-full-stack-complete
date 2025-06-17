@@ -31,7 +31,7 @@ Git clone:
 
 Go inside folder:
 
-> cd Testez-une-application-full-stack/back
+> cd Developpez-une-application-full-stack-complete/back
 
 Install dependencies:
 
@@ -45,7 +45,7 @@ Launch API:
 
 Go inside folder:
 
-> cd Testez-une-application-full-stack/front
+> cd Developpez-une-application-full-stack-complete/front
 
 Install dependencies:
 

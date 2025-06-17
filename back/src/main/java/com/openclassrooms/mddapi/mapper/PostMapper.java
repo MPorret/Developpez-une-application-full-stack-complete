@@ -19,6 +19,7 @@ public interface PostMapper {
     @Mapping(target = "updatedAt", ignore = true)
     Post toEntity(PostDTO dto, User author, Topic topic);
 
+    @Mapping(target = "comments", ignore = true)
     PostResponseDTO toDto(Post post);
     List<PostResponseDTO> toDto(List<Post> posts);
 }
