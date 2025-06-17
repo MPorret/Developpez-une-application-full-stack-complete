@@ -27,11 +27,11 @@ JWT_KEY=your_jwt_key
 
 Git clone:
 
-> git clone https://github.com/MPorret/Testez-une-application-full-stack
+> git clone https://github.com/MPorret/Developpez-une-application-full-stack-complete
 
 Go inside folder:
 
-> cd Testez-une-application-full-stack/back
+> cd Developpez-une-application-full-stack-complete/back
 
 Install dependencies:
 
@@ -45,7 +45,7 @@ Launch API:
 
 Go inside folder:
 
-> cd Testez-une-application-full-stack/front
+> cd Developpez-une-application-full-stack-complete/front
 
 Install dependencies:
 
