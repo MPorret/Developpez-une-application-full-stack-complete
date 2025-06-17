@@ -27,7 +27,7 @@ JWT_KEY=your_jwt_key
 
 Git clone:
 
-> git clone https://github.com/MPorret/Testez-une-application-full-stack
+> git clone https://github.com/MPorret/Developpez-une-application-full-stack-complete
 
 Go inside folder:
 
